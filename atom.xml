@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xgfe.github.io/"/>
-  <updated>2018-04-12T12:51:48.000Z</updated>
+  <updated>2018-04-25T07:45:54.000Z</updated>
   <id>http://xgfe.github.io/</id>
   
   <author>
@@ -14,6 +14,143 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>web前端性能优化</title>
+    <link href="http://xgfe.github.io/2018/04/15/zhangjianfeng/web%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    <id>http://xgfe.github.io/2018/04/15/zhangjianfeng/web前端性能优化/</id>
+    <published>2018-04-15T07:00:00.000Z</published>
+    <updated>2018-04-25T07:45:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在构建web站点的过程中，任何一个细节都有可能影响网站的访问速度，如果不了解性能优化知识，很多不利网站访问速度的因素会形成累加，从而严重影响网站的性能，导致网站访问速度变慢，用户体验低下，最终导致用户流失。本文主要围绕以下几点讲解：</p>
+<ol>
+<li>客户端请求</li>
+<li>客户端渲染</li>
+<li>服务端响应</li>
+<li>网络<a id="more"></a>
+</li>
+</ol>
+<h2 id="客户端请求"><a href="#客户端请求" class="headerlink" title="客户端请求"></a>客户端请求</h2><p>每个请求都是有成本的，既包含时间成本也包含资源成本。一个完整的请求都需要经过 DNS寻址、与服务器建立连接、发送数据、等待服务器响应、接收数据这样一个 “漫长” 而复杂的过程。时间成本就是用户需要看到或者 “感受” 到这个资源是必须要等待这个过程结束的，资源上由于每个请求都需要携带数据，因此每个请求都需要占用带宽。另外，由于浏览器进行并发请求的请求数是有上限的，因此请求数多了以后，浏览器需要分批进行请求，因此会增加用户的等待时间，会给用户造成站点速度慢这样一个印象。</p>
+<h3 id="资源压缩与合并"><a href="#资源压缩与合并" class="headerlink" title="资源压缩与合并"></a>资源压缩与合并</h3><p>压缩可以减少资源的体积，从而增加加载速度。将资源文件合并，减少资源的请求数。但并不意味着，一个资源越大越好，资源太大，会影响资源加载速度。针对这一问题，利用webpack模块化打包工具分块打包、按需加载以及提取公共部分代码，利用缓存可以得到解决。具体可参考<a href="http://mp.weixin.qq.com/s/BVYgLeOEIJp5xY55Rcrszg" target="_blank" rel="external">webpack的使用</a>。</p>
+<h3 id="DNS预解析"><a href="#DNS预解析" class="headerlink" title="DNS预解析"></a>DNS预解析</h3><p>从用户输入一个网址到网页最终展现到用户面前，中间的大致发生以下几个流程：</p>
+<ol>
+<li>发送到DNS（域名服务器）获得域名对应的WEB服务器的IP地址。</li>
+<li>客户端浏览器与WEB服务器建立TCP（传输控制协议）连接。</li>
+<li>客户端浏览器向对应IP地址的WEB服务器发送相应的HTTP或HTTPS请求。</li>
+<li>WEB服务器响应请求，返回指定的URL数据或错误信息；如果设定重定向，则重定向到新的URL地址。</li>
+<li>客户端浏览器下载数据，解析HTML源文件，解析的过程中实现对页面的排版，解析完成后，在浏览器中显示基础的页面。</li>
+<li>分析页面中的超链接，显示在当前页面，重复以上过程直至没有超链接需要发送，完成页面的全部显示。<br>DNS解析时间可能导致大量用户感知延迟，DNS解析所需的时间差异非常大，延迟范围可以从1ms（本地缓存结果）到普遍的几秒钟时间。所以利用DNS预解析是有意义的。<br>具体实现方式：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=<span class="string">"dns-prefetch"</span> href=<span class="string">"hostname"</span> /&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h3><p>预加载是一种浏览器机制，使用浏览器空闲时间来预先下载/加载用户接下来很可能会浏览的页面/资源。页面提供给浏览器需要预加载的集合。浏览器载入当前页面完成后，将会在后台下载需要预加载的页面并添加到缓存中。当用户访问某个预加载的链接时，如果从缓存命中，页面就得以快速呈现。 实现方式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 页面，可以使用绝对或者相对路径</span></div><div class="line">&lt;link rel=<span class="string">"prefetch"</span> href=<span class="string">"page2.html"</span> /&gt; </div><div class="line"><span class="comment">// 图片，也可以是其他类型的文件</span></div><div class="line">&lt;link rel=<span class="string">"prefetch"</span> href=<span class="string">"sprite.png"</span> /&gt;</div></pre></td></tr></table></figure></p>
+<p>从上面的HTML代码可以看出，预加载使用 <link> 标签，并指定 rel=”prefetch” 属性，而href属性就是需要预加载的文件路径。</p>
+<h3 id="懒加载"><a href="#懒加载" class="headerlink" title="懒加载"></a>懒加载</h3><p>一个页面有很多图片，而首屏出现的图片大概就一两张，如果一次性把所有图片都加载出来，不仅影响页面渲染速度，还浪费带宽。这也就是们通常所说的首屏加载，其中要用的技术就是图片懒加载–到可视区域再加载。简单实现如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">lazyload</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// 获取所有要进行懒加载的图片</span></div><div class="line">    <span class="keyword">var</span> eles = <span class="built_in">document</span>.querySelectorAll(<span class="string">'img[data-original][lazyload]'</span>);</div><div class="line">    <span class="keyword">var</span> viewHeight = <span class="built_in">window</span>.innerHeight;</div><div class="line">    eles.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">item, index</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> rect;</div><div class="line">        <span class="keyword">if</span> (item.dataset.original === <span class="string">''</span>) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        rect = item.getBoundingClientRect();</div><div class="line">        <span class="comment">// 图片一进入可视区，动态加载</span></div><div class="line">        <span class="keyword">if</span> (rect.bottom &gt;= <span class="number">0</span> &amp;&amp; rect.top &lt; viewHeight) &#123;</div><div class="line">            item.src = item.dataset.original;</div><div class="line">            item.removeAttribute(<span class="string">'data-original'</span>);</div><div class="line">            item.removeAttribute(<span class="string">'lazyload'</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="CSS-Sprites"><a href="#CSS-Sprites" class="headerlink" title="CSS Sprites"></a>CSS Sprites</h3><p>合并 CSS图片，也就是通过将多个图片或者icon放在一张图片中，利用css的background-position属性控制每个图片或icon的位置。</p>
+<h2 id="客户端渲染"><a href="#客户端渲染" class="headerlink" title="客户端渲染"></a>客户端渲染</h2><p>客户端优化 dom、css 和 js 的代码和加载顺序</p>
+<h3 id="什么是DOM"><a href="#什么是DOM" class="headerlink" title="什么是DOM"></a>什么是DOM</h3><blockquote>
+<p>Document Object Model 文档对象模型</p>
+</blockquote>
+<p>DOM是Model，是Object Model，对象模型，是为HTML（and XML）提供的API。HTML（Hyper Text Markup Language）是一种标记语言，HTML在DOM的模型标准中被视为对象，DOM只提供编程接口，却无法实际操作HTML里面的内容。但在浏览器端，我们可以用脚本语言（JavaScript）通过DOM去操作HTML内容。</p>
+<h3 id="为什么DOM很慢"><a href="#为什么DOM很慢" class="headerlink" title="为什么DOM很慢"></a>为什么DOM很慢</h3><p>首先，我们来了解一下网页的生成过程。浏览器在收到 HTML 文档之后会对文档进行解析开始构建 DOM （Document Object Model） 树，进而在文档中发现样式表，开始解析 CSS 来构建 CSSOM（CSS Object Model）树，这两者都构建完成后，开始构建渲染树。大致可分为以下几个过程：</p>
+<ol>
+<li>构建DOM树</li>
+<li>构建CSSOM树</li>
+<li>生成render树</li>
+<li>Layout 布局</li>
+<li>Paint 绘制</li>
+</ol>
+<p>在每次修改了 DOM 或者其样式之后都要进行 DOM树的构建，CSSOM 的重新计算，进而得到新的渲染树。浏览器会利用新的渲染树对页面进行重排和重绘，以及图层的合并。通常浏览器会批量进行重排和重绘，以提高性能。但当我们试图通过 JavaScript 获取某个节点的尺寸信息的时候，为了获得当前真实的信息，浏览器会立刻进行一次重排。</p>
+<p>通过js操作DOM，影响页面性能的主要原因有如下几点：</p>
+<ul>
+<li>访问和修改DOM元素</li>
+<li>修改DOM元素的样式，导致重绘和重排</li>
+<li>通过对DOM元素的事件处理，完成与用户的交互功能</li>
+</ul>
+<h3 id="重绘（也称为回流reflow）和重排"><a href="#重绘（也称为回流reflow）和重排" class="headerlink" title="重绘（也称为回流reflow）和重排"></a>重绘（也称为回流reflow）和重排</h3><p>重排和重绘是DOM编程中耗能的主要原因之一。</p>
+<blockquote>
+<p>重绘</p>
+</blockquote>
+<p>重绘意味着元素发生的改变只影响了节点的一些样式（背景色，边框颜色，文字颜色等），只需要应用新样式绘制这个元素就可以了。</p>
+<blockquote>
+<p>引起重绘的操作</p>
+</blockquote>
+<ul>
+<li>重排必定引起repaint重绘，重绘可以单独触发</li>
+<li>背景色、颜色、字体改变（注意：字体大小发生变化时，会触发回流）</li>
+</ul>
+<blockquote>
+<p>重排</p>
+</blockquote>
+<p>根据Render Tree布局（几何属性），意味着元素的内容、结构、位置或尺寸发生了变化，需要重新计算样式和渲染树。</p>
+<blockquote>
+<p>引起重排的操作</p>
+</blockquote>
+<ul>
+<li>内容改变<br>  文本改变或图片尺寸改变</li>
+<li>DOM元素的几何属性的变化<br>  例如改变DOM元素的宽高值时，原渲染树中的相关节点会失效，浏览器会根据变化后的DOM重新排建渲染树中的相关节点。如果父节点的几何属性变化时，还会使其子节点及后续兄弟节点重新计算位置等，造成一系列的重排。</li>
+<li>DOM树的结构变化<br>  添加DOM节点、修改DOM节点位置及删除某个节点都是对DOM树的更改，会造成页面的重排。浏览器布局是从上到下的过程，修改当前元素不会对其前边已经遍历过的元素造成影响，但是如果在所有的节点前添加一个新的元素，则后续的所有元素都要进行重排。</li>
+<li>浏览器窗口尺寸改变<br>  窗口尺寸的改变会影响整个网页内元素的尺寸的改变，即DOM元素的集合属性变化，因此会造成重排。</li>
+<li>获取某些属性<br>  除了渲染树的直接变化，当获取一些属性值时，浏览器为取得正确的值也会发生重排，这些属性包括：offsetTop、offsetLeft、 offsetWidth、offsetHeight、scrollTop、scrollLeft、scrollWidth、scrollHeight、 clientTop、clientLeft、clientWidth、clientHeight、getComputedStyle()。</li>
+</ul>
+<h3 id="对性能的影响"><a href="#对性能的影响" class="headerlink" title="对性能的影响"></a>对性能的影响</h3><p>重排和重绘会不断触发，这是不可避免的。但是，它们非常耗费资源，是导致网页性能低下的根本原因。<br>提高网页性能，就是要降低“重排”和“重绘”的频率和成本，尽量少触发重新渲染。<br>前面提到，DOM变动和样式变动，都会触发重新渲染。但是，浏览器已经很智能了，会尽量把所有的变动集中在一起，排成一个队列，然后一次性执行，尽量避免多次重新渲染。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">div.style.color = <span class="string">'blue'</span>;</div><div class="line">div.style.marginTop = <span class="string">'30px'</span>;</div></pre></td></tr></table></figure></p>
+<p>上面代码中，div元素有两个样式变动，但是浏览器只会触发一次重排和重绘。</p>
+<p>如果写得不好，就会触发两次重排和重绘。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">div.style.color = <span class="string">'blue'</span>;</div><div class="line"><span class="keyword">var</span> margin = <span class="built_in">parseInt</span>(div.style.marginTop);</div><div class="line">div.style.marginTop = (margin + <span class="number">10</span>) + <span class="string">'px'</span>;</div></pre></td></tr></table></figure></p>
+<p>上面代码对div元素设置颜色以后，第二行要求浏览器给出该元素的位置，所以浏览器不得不立即重排。</p>
+<p>一般来说，样式的写操作之后，如果有下面这些属性的读操作，都会引发浏览器立即重新渲染。</p>
+<pre><code>* offsetTop/offsetLeft/offsetWidth/offsetHeight
+* scrollTop/scrollLeft/scrollWidth/scrollHeight
+* clientTop/clientLeft/clientWidth/clientHeight
+* getComputedStyle()
+</code></pre><p>所以，从性能角度考虑，尽量不要把读操作和写操作，放在一个语句里面。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//bad</span></div><div class="line">div.style.left = div.offsetLeft + <span class="number">10</span> + <span class="string">"px"</span>;</div><div class="line">div.style.top = div.offsetTop + <span class="number">10</span> + <span class="string">"px"</span>;</div><div class="line"><span class="comment">//good</span></div><div class="line"><span class="keyword">var</span> left = div.offsetLeft;</div><div class="line"><span class="keyword">var</span> top  = div.offsetTop;</div><div class="line">div.style.left = left + <span class="number">10</span> + <span class="string">"px"</span>;</div><div class="line">div.style.top = top + <span class="number">10</span> + <span class="string">"px"</span>;</div></pre></td></tr></table></figure></p>
+<h3 id="关于DOM操作的几个技巧"><a href="#关于DOM操作的几个技巧" class="headerlink" title="关于DOM操作的几个技巧"></a>关于DOM操作的几个技巧</h3><ul>
+<li>DOM 的多个读操作（或多个写操作），应该放在一起。不要两个读操作之间，加入一个写操作。</li>
+<li>如果某个样式是通过重排得到的，那么最好缓存结果。避免下一次用到的时候，浏览器又要重排。</li>
+<li><p>不要一条条地改变样式，而要通过改变class，或者csstext属性，一次性地改变样式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> left = <span class="number">10</span>;</div><div class="line"><span class="keyword">var</span> top = <span class="number">10</span>;</div><div class="line">el.style.left = left + <span class="string">"px"</span>;</div><div class="line">el.style.top  = top  + <span class="string">"px"</span>;</div><div class="line"><span class="comment">// good</span></div><div class="line">el.className += <span class="string">" theclassname"</span>;</div><div class="line"><span class="comment">// good</span></div><div class="line">el.style.cssText += <span class="string">"; left: "</span> + left + <span class="string">"px; top: "</span> + top + <span class="string">"px;"</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>先将元素设为display: none（需要1次重排和重绘），然后对这个节点进行100次操作，最后再恢复显示（需要1次重排和重绘）。这样一来，你就用两次重新渲染，取代了可能高达100次的重新渲染。</p>
+</li>
+<li>position属性为absolute或fixed的元素，重排的开销会比较小，因为不用考虑它对其他元素的影响。</li>
+<li>只在必要的时候，才将元素的display属性为可见，因为不可见的元素不影响重排和重绘。另外，visibility : hidden的元素只对重绘有影响，不影响重排。</li>
+<li><p>在涉及到吸顶相关及scroll滚动优化</p>
+<ol>
+<li>尽量控制DOM的显示或隐藏，而不是删除或添加</li>
+<li>一次性操作DOM</li>
+<li>多做缓存</li>
+<li><p>注意节流，避免频繁触发滚动事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> throttle = <span class="function"><span class="keyword">function</span> (<span class="params">fn, threshhold = <span class="number">200</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> last;</div><div class="line">    <span class="keyword">var</span> timer;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> context = <span class="keyword">this</span>;</div><div class="line">        <span class="keyword">var</span> args = <span class="built_in">arguments</span>;</div><div class="line">        <span class="keyword">var</span> now = +<span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">        <span class="keyword">if</span> (last &amp;&amp; now &lt; last + threshhold) &#123;</div><div class="line">            clearTimeout(timer);</div><div class="line">            timer = setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                last = now;</div><div class="line">                fn.apply(context, args);</div><div class="line">            &#125;, threshhold);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            last = now;</div><div class="line">            fn.apply(context, args);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="代码优化和加载顺序"><a href="#代码优化和加载顺序" class="headerlink" title="代码优化和加载顺序"></a>代码优化和加载顺序</h3><p>尽量较少不必要的代码，比如html和css的多层嵌套，代码结构尽量精简。了解js内存泄漏，避免导致内存泄漏的写法。HTML和CSS都会阻塞渲染。所以需要让CSS尽早加载（如：放在头部），以缩短首次渲染的时间。js脚本会阻塞浏览器解析，将脚本放在页面底部加载。</p>
+<h2 id="服务端响应"><a href="#服务端响应" class="headerlink" title="服务端响应"></a>服务端响应</h2><p>尽量减少响应的体积，比如用 gzip 压缩，优化图片字节数，加快文件读取速度，优化服务端的缓存策略。</p>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><p>优化网络路由，比如增加 CDN 缓存；或增加并发处理能力，比如服务端设置多个域名，客户端使用多个域名同时请求资源，增加并发量。</p>
+<h3 id="浏览器并发请求限制"><a href="#浏览器并发请求限制" class="headerlink" title="浏览器并发请求限制"></a>浏览器并发请求限制</h3><p>基于端口数量和线程切换开销的考虑，浏览器不可能无限量的并发请求，因此衍生出来了并发限制。浏览器的并发请求数目限制是针对同一域名的。因此静态资源可以引用不同域名下的资源文件，间接增加浏览器请求资源的并发数。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上介绍了性能优化的几个方面，因个人能力有限，有总结不到或者错误的地方，还请各位大神不吝指教。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在构建web站点的过程中，任何一个细节都有可能影响网站的访问速度，如果不了解性能优化知识，很多不利网站访问速度的因素会形成累加，从而严重影响网站的性能，导致网站访问速度变慢，用户体验低下，最终导致用户流失。本文主要围绕以下几点讲解：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;客户端请求&lt;/li&gt;
+&lt;li&gt;客户端渲染&lt;/li&gt;
+&lt;li&gt;服务端响应&lt;/li&gt;
+&lt;li&gt;网络
+    
+    </summary>
+    
+      <category term="zhangjianfeng" scheme="http://xgfe.github.io/categories/zhangjianfeng/"/>
+    
+    
+      <category term="性能优化" scheme="http://xgfe.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    
+      <category term="web性能" scheme="http://xgfe.github.io/tags/web%E6%80%A7%E8%83%BD/"/>
+    
+      <category term="前端优化实践" scheme="http://xgfe.github.io/tags/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/"/>
+    
+  </entry>
   
   <entry>
     <title>routable-ios 源码解析</title>
@@ -755,115 +892,179 @@ if (spaceAbove &lt; absIncrementalDeltaY || spaceBelow &lt; absIncrementalDeltaY
     <title>Less Vs Sass</title>
     <link href="http://xgfe.github.io/2018/01/26/zhoushiqi/Less-VS-Sass/"/>
     <id>http://xgfe.github.io/2018/01/26/zhoushiqi/Less-VS-Sass/</id>
-    <published>2018-01-25T16:00:00.000Z</published>
-    <updated>2018-03-20T03:07:52.000Z</updated>
+    <published>2018-01-26T04:00:21.000Z</published>
+    <updated>2018-04-25T07:49:50.000Z</updated>
     
-    <content type="html"><![CDATA[<p>通过一些对Less 和 Sass 的研究和学习,逐渐发现了它们一些共同特征（混入、参数混入、嵌套规则、运算、颜色功能、名字空间、作用域、JavaScript 赋值）和 不同之处，这里主要总结一些 Less 和 Sass <strong>用法不同之处</strong>。</p>
+    <content type="html"><![CDATA[<p>通过一些对Less 和 Sass 的研究和学习，逐渐发现了它们一些共同特征（混入、参数混入、嵌套规则、运算、颜色功能、名字空间、作用域、JavaScript 赋值）和 不同之处，这里主要总结一些 Less 和 Sass <strong>用法不同之处</strong>。</p>
 <a id="more"></a>
-<h2 id="CSS-预处理器"><a href="#CSS-预处理器" class="headerlink" title="CSS 预处理器"></a>CSS 预处理器</h2><p>CSS 预处理器：用一种专门的编程语言，为 CSS 增加了一些编程的特性，将 CSS作为目标生成文件，开发者只需使用这种语言就可进行编码工作。</p>
-<h2 id="简述-Less-amp-Sass"><a href="#简述-Less-amp-Sass" class="headerlink" title="简述 Less &amp; Sass"></a>简述 Less &amp; Sass</h2><table><tr><td>Less</td><td>Sass</td></tr><tr><td>Less 是一门 CSS 预处理语言，它扩充了 CSS 语言，增加了诸如变量、混合（mixin）、函数等功能，让 CSS 更易维护、方便制作主题、扩充。</td><td> Sass 是一门高于 CSS 的元语言，也是一门CSS预处理语言，它能用来清晰地、结构化地描述文件样式，有着比普通 CSS 更加强大的功能。Sass 能够提供更简洁、更优雅的语法，同时提供多种功能来创建可维护和管理的样式表。 </td></tr></table>
+<h2 id="CSS-预处理器"><a href="#CSS-预处理器" class="headerlink" title="CSS 预处理器"></a>CSS 预处理器</h2><p>CSS 预处理器：用一种专门的编程语言，为 CSS 增加了一些编程的特性，将 CSS 作为目标生成文件，开发者只需使用这种语言就可进行编码工作。</p>
+<h2 id="简述-Less-amp-Sass"><a href="#简述-Less-amp-Sass" class="headerlink" title="简述 Less &amp; Sass"></a>简述 Less &amp; Sass</h2><table><tr><td>Less</td><td>Sass</td></tr><tr><td>Less 是一门 CSS 预处理语言，它扩充了 CSS 语言，增加了诸如变量、混合（mixin）、函数等功能，让 CSS 更易维护、方便制作主题、扩充。</td><td> Sass 是一门高于 CSS 的元语言，也是一门 CSS 预处理语言，它能用来清晰地、结构化地描述文件样式，有着比普通 CSS 更加强大的功能。Sass 能够提供更简洁、更优雅的语法，同时提供多种功能来创建可维护和管理的样式表。 </td></tr></table>
 
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
 <ul>
-<li>Less : npm install -g less</li>
-<li>Sass : gem install sass</li>
+<li>Less ： npm install -g less</li>
+<li>Sass ： gem install sass</li>
 </ul>
 </blockquote>
-<h2 id="Sass-amp-Less-对比"><a href="#Sass-amp-Less-对比" class="headerlink" title="Sass &amp; Less 对比"></a>Sass &amp; Less 对比</h2><h3 id="编译环境"><a href="#编译环境" class="headerlink" title="编译环境"></a>编译环境</h3><ul>
-<li>Sass的安装需要Ruby环境,是在服务端处理的</li>
-<li>Less是需要引入less.js来处理Less代码输出css到浏览器，也可以在开发环节使用Less，然后编译乘css文件，直接放到项目中,也有Less.app、SimpleLess、CodeKit.app这样的工具，也有在线编译的。</li>
+<h2 id="Sass-amp-Less"><a href="#Sass-amp-Less" class="headerlink" title="Sass &amp; Less"></a>Sass &amp; Less</h2><h3 id="编译环境"><a href="#编译环境" class="headerlink" title="编译环境"></a>编译环境</h3><ul>
+<li>Sass 的安装需要 Ruby 环境，是在服务端处理的。</li>
+<li>Less 是需要引入 less.js 来处理 Less 代码输出 CSS 到浏览器，也可以在开发环节使用Less，然后编译成 CSS 文件，直接放到项目中，也有 Less.app、SimpleLess、CodeKit.app这样的工具，也有在线编译的。</li>
 </ul>
 <h3 id="引用-import"><a href="#引用-import" class="headerlink" title="引用 @import"></a>引用 @import</h3><ul>
-<li>Less引用外部文件和css中的@import没什么差异。</li>
-<li>scss引用的外部文件命名必须以<em> 开头,文件名如果以下划线</em> 开头的话,Sass会认为该文件是一个引用文件,不会将其编译为css文件。</li>
+<li><p>Less 可以根据文件扩展名不同而用不同的方式处理</p>
+<ul>
+<li>如果文件是.css的扩展名，将处理为 CSS 和 @import 语句保持原样。</li>
+<li>如果为其他的扩展名将处理为 less 导入。</li>
+<li>如果没有较少的扩展，那么它将被附加并包含为导入的较少文件。</li>
+<li>如果没有扩展名，将会为他添加 .less 扩展名，作为 less 导入。</li>
+<li>多个关键字 @import 是允许的，你必须使用逗号分隔关键字：example：@import (optional， reference) “foo.less”。</li>
+</ul>
+</li>
+<li><p>Sass 的@import规则在生成 CSS 文件时就把相关文件导入进来。Sass 允许 @import 命令写在CSS规则内。这种导入方式下，生成对应的 CSS 文件时，局部文件会被直接插入到CSS规则内导入它的地方。被导入的局部文件中定义的所有变量和混合器，也会在这个规则范围内生效。这些变量和混合器不会全局有效。另外，所有在被导入文件中定义的变量和混合器均可在导入文件中使用。但是，在少数几种情况下，它会被编译成 CSS 的 @import 规则：</p>
+<ul>
+<li>如果文件的扩展名是 .css。</li>
+<li>如果文件名以 http:// 开头。</li>
+<li>如果文件名是 url()。</li>
+<li><p>如果@import包含了任何媒体查询（media queries）。</p>
+<p>Scss/Sass 引用的外部文件命名必须以下划线 <em> 开头，文件名如果以下划线 </em> 开头的话，Sass 会认为该文件是一个引用文件，这将告诉 Sass 不要把它编译成 CSS 文件。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h3><ul>
+<li>Less<ul>
+<li>内层选择器前面的 &amp; 符号就表示对父选择器的引用。在一个内层选择器的前面，如果没有 &amp; 符号，则它被解析为父选择器的后代；如果有 &amp; 符号，它就被解析为父元素自身或父元素的伪类。</li>
+</ul>
+</li>
+<li>Sass<ul>
+<li>1.选择器嵌套中，可以使用 &amp; 表示父元素选择器 </li>
+<li>2.Sass 中还提供属性嵌套，所谓属性嵌套指的是有些属性拥有同一个开始单词，如border-width，border-color 都是以 border 开头。CSS 有一些属性前缀相同，只是后缀不一样 </li>
+<li>3.其实伪类嵌套和属性嵌套非常类似，只不过他需要借助<code>&amp;</code>符号一起配合使用</li>
+</ul>
+</li>
 </ul>
 <h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><ul>
-<li>Less的变量声明和调用 : 用@ </li>
-<li>Sass的变量声明和调用 : 用$</li>
+<li>Less的变量声明和调用 ：用@ </li>
+<li>Sass的变量声明和调用 ：用$</li>
 </ul>
 <table><tr><td>Less</td><td>Sass</td></tr><tr><td><img width="300px" height="100px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntwpg061yj30nw0cwq62.jpg"></td><td><img width="300px" height="100px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntwo1ksgcj30p80cugo9.jpg"></td></tr></table>
 
-<h3 id="局部变量和全局变量"><a href="#局部变量和全局变量" class="headerlink" title="局部变量和全局变量"></a>局部变量和全局变量</h3><p>Both : 定义全局变量（在选择器、函数、选择宏…的外面定义的变量为全局变量）</p>
+<h3 id="局部变量和全局变量"><a href="#局部变量和全局变量" class="headerlink" title="局部变量和全局变量"></a>局部变量和全局变量</h3><p>Both ： 定义全局变量（在选择器、函数、选择宏…的外面定义的变量为全局变量）</p>
 <table><tr><td>Less</td><td>Sass</td></tr><tr><td><img width="300px" height="150px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntwzi2wicj30pm0f4whn.jpg"></td><td><img width="300px" height="150px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntwzh8h1zj30ps0fgq67.jpg"></td></tr></table>
 
 <h3 id="工具库"><a href="#工具库" class="headerlink" title="工具库"></a>工具库</h3><ul>
-<li>Sass有工具库Compass,简单说,Sass和Compass的关系有点像Javascript和jQuery的关系,Compass是Sass的工具库。在它的基础上,封装了一系列有用的模块和模板,补充强化了Sass的功能。</li>
-<li>Less有UI组件库Bootstrap,Bootstrap是web前端开发中一个比较有名的前端UI组件库，Bootstrap的样式文件部分源码就是采用Less语法编写。</li>
+<li>Sass工具库<ul>
+<li><strong>Compass</strong>。<ul>
+<li>特点 <ul>
+<li>1、减少重复工作，加快开发进度 </li>
+<li>2、使用变量，便于记忆，变量使用$符号开头 </li>
+<li>3、自动转换 RGBA 颜色值 </li>
+<li>4、Compass 带有大量混合宏，可以忘记浏览器前缀，节省大量时间</li>
+<li>5、嵌套规则，使用嵌套，减少代码量 </li>
+<li>6、设备查询，media queries，一样是使用混合宏，减少代码量，节省开发时间 </li>
+<li>7、自动压缩 CSS 代码，再次节省开发时间，提高效益</li>
 </ul>
-<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><p>1.在Less里你可以用递归函数通过数值来循环:</p>
+</li>
+<li>只要先import “compass/<em><strong>CSS3</strong></em>”， 之後就可以使用所有 CSS3 的內容，如border-radius、box-shadow、gradient…等，使用方式是 @include ，其实是 compass 帮你写好了 @mixin ，你只要会用就好，而compass厉害的就是会同时帮你产生各個浏览器相对应的CSS。</li>
+<li>在 compass 新建的项目目录下，新建 images 文件夹。 在 images 文件夹中新建一个文件夹用于放置要合成的图片。 在项目的 Sass 文件夹下新建一个文件。就能看到在 images 文件夹中生成了一个<em><strong>雪碧图</strong></em>。</li>
+</ul>
+</li>
+<li><strong>SCUT</strong>。SCUT 是提供给前端开发者的 Sass 工具集，能帮助提高对一般样式代码模式的执（implementations of common style-code patterns）。Scut 工具集可以帮助用户避免重复写代码，扩大代码的可重用性。Scut 工具集可以处理模式（patterns）遇到的下列问题：pattern 是不直观的。pattern 需要简写 pattern 涉及到一些重要的最佳实践 pattern 是极为常见的，（至少）有点讨厌。Scut 工具集的目标是实现可重用性的最大化（maximizies reusabilit）。</li>
+<li><strong>Koala</strong>。Sass 和 Less 不一样，需要在本地编译成 CSS 才能看到效果，所以有一个很强大的<em><strong>编译工具</strong></em>才是重中之重。如果你不会安装 ruby ，更是没听过它;如果你安装了 Ruby，但是不会用它，那么就果断用 Koala 吧。<ul>
+<li>特点：<ul>
+<li>1、多语言支持     </li>
+<li>2、实时编译　</li>
+<li>3、编译选项　</li>
+<li>4、强大的文件右键功能　</li>
+<li>5、错误提示 </li>
+<li>6、跨平台　</li>
+<li>7、免费且负责</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Less工具库<ul>
+<li>有UI组件库<strong>Bootstrap</strong>，Bootstrap 是 web前端开发中一个比较有名的前端UI组件库，Bootstrap的样式文件部分源码就是采用 Less 语法编写。</li>
+<li>Less工具库<strong>EST</strong>。 EST（EFE Styling Toolkit）是一个基于Less的样式工具库，帮助您更轻松地书写 Less 代码。EST 提供了一系列方便快捷的 mixin，只在调用时才输出代码。该项目由 EFE 团队开发而来，项目托管在 <a href="https：//github.com/ecomfe/est/">GitHub</a> 上。EST不希望提供直接给HTML调用的类名，用「样式类」污染HTML代码的语义。当然您也可以根据自己的项目需求基于 EST 搭建样式类库，提供类名接口来进行快速开发。</li>
+</ul>
+</li>
+</ul>
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><p>1.在 Less 里你可以用递归函数通过数值来循环：</p>
 <pre><code>.looper (@i) when (@i &gt; 0) {
   .image-class-@{i} {
-    background: url(“../img/@{i}.png”) no-repeat;
+    background： url(“../img/@{i}.png”) no-repeat;
   }
   .looper(@i – 1);
 }
 .looper(0);
 .looper(3);
-</code></pre><p>2.在Sass里你可以通过任何数据来迭代:</p>
-<pre><code>@each $beer in stout, pilsner, lager {
+</code></pre><p>2.在 Sass 里你可以通过任何数据来迭代：</p>
+<pre><code>@each $beer in stout， pilsner， lager {
   .#{$beer}-background {
-    background: url(“../img/beers/#{$beer}.png”) no-repeat;
+    background： url(“../img/beers/#{$beer}.png”) no-repeat;
   }
 }
-</code></pre><h3 id="条件语句-LESS中称作引导"><a href="#条件语句-LESS中称作引导" class="headerlink" title="条件语句(LESS中称作引导)"></a>条件语句(LESS中称作引导)</h3><ul>
-<li>Less : 可以通过 when 语句判断条件</li>
-<li>Sass : 通过 @if 和 @else 的方式进行条件判断</li>
+</code></pre><h3 id="条件语句-Less中称作引导"><a href="#条件语句-Less中称作引导" class="headerlink" title="条件语句(Less中称作引导)"></a>条件语句(Less中称作引导)</h3><ul>
+<li>Less ： 可以通过 when 语句判断条件</li>
+<li>Sass ： 通过 @if 和 @else 的方式进行条件判断</li>
 </ul>
 <table><tr><td>Less</td><td>Sass</td></tr><tr><td rowspan="2"><img width="400px" height="100px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fnty9d44q4j30pi0bcacy.jpg"></td><td><img width="300px" height="100px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fnty9br31dj30p40iqdjj.jpg"></td></tr></table>
 
 <h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><ul>
-<li>Less的作用域是按照代码的从上至下的顺序进行的</li>
-<li>Sass的作用域是按照最后一次定义影响全局的</li>
+<li>Less 的作用域是按照代码的从上至下的顺序进行的</li>
+<li>Sass 的作用域是按照最后一次定义影响全局的</li>
 </ul>
 <table><tr><td>Less</td><td>Sass</td></tr><tr><td><img width="150px" height="300px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntwsyxnt0j30fi0qqacf.jpg"></td><td><img width="150px" height="300px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntwsw1rouj30fg0qodi7.jpg"></td></tr></table>
 
 <h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><ul>
-<li>LESS : 并没有输出设置，</li>
-<li>Sass : 提供4中输出选项：nested, compact, compressed 和 expanded。</li>
+<li>Less ：并没有输出设置</li>
+<li>Sass ：提供4中输出选项：nested，compact，compressed 和 expanded</li>
 </ul>
 <h3 id="Mixins-混合宏"><a href="#Mixins-混合宏" class="headerlink" title="Mixins (混合宏)"></a>Mixins (混合宏)</h3><ul>
-<li>Less : 支持带参数的混合以及有默认参数值的混合</li>
-<li>Sass : 有明确的定义: @Mixin + 宏 调用 : @include + 宏</li>
+<li>Less ：支持带参数的混合以及有默认参数值的混合</li>
+<li>Sass ：有明确的定义： @Mixin + 宏 调用 ： @include + 宏</li>
 </ul>
 <table><tr><td>Less</td><td>Sass</td></tr><tr><td><img width="300px" height="100px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntxaheqwoj30n00kin0g.jpg"></td><td><img width="300px" height="100px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntxak5ku1j30my0ketcd.jpg"></td></tr></table>
 
 <h3 id="Parametric-Mixins-参数混入"><a href="#Parametric-Mixins-参数混入" class="headerlink" title="Parametric-Mixins (参数混入)"></a>Parametric-Mixins (参数混入)</h3><p>混合宏使用中参数使用：</p>
 <ul>
-<li>Less : @</li>
-<li>Sass : $ + @mixin + @include</li>
+<li>Less ： @</li>
+<li>Sass ： $ + @mixin + @include</li>
 </ul>
 <table><tr><td>Less</td><td>Sass</td></tr><tr><td><img width="300px" height="100px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntxcz0u3aj30ng0dwq55.jpg"></td><td><img width="300px" height="100px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntxcz7mboj30nm0e0wgz.jpg"></td></tr></table>
 
 <h3 id="Placeholder-占位符"><a href="#Placeholder-占位符" class="headerlink" title="Placeholder (占位符)"></a>Placeholder (占位符)</h3><ul>
-<li>Less : Null</li>
-<li>Sass : 可以使用 <strong>%</strong> 作为占位符</li>
+<li>Less ： Null</li>
+<li>Sass ： 可以使用 <strong>%</strong> 作为占位符</li>
 </ul>
-<h3 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h3><p>Sass在数字上比Less更专业。它已经可以换算单位了。Sass可以处理无法识别的度量单位并将其输出。这个特性很明显是一个对未来的尝试——证明W3C作出的一些改变。</p>
+<h3 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h3><p>Sass 在数字上比 Less 更专业。它已经可以换算单位了。Sass 可以处理无法识别的度量单位并将其输出。这个特性很明显是一个对未来的尝试——证明W3C作出的一些改变。</p>
 <ul>
-<li>Sass : 2in + 3cm + 2pc = 3.514in </li>
-<li>Less : 2in + 3cm + 2pc = Error</li>
+<li>Sass ： 2in + 3cm + 2pc = 3.514in </li>
+<li>Less ： 2in + 3cm + 2pc = Error</li>
 </ul>
 <h3 id="选择器继承"><a href="#选择器继承" class="headerlink" title="选择器继承"></a>选择器继承</h3><ul>
-<li>Sass定义的选择器可以通过继承的方式使用</li>
-<li>Less没有这个功能</li>
+<li>Sass 定义的选择器可以通过继承的方式使用</li>
+<li>Less 没有这个功能</li>
 </ul>
 <table><tr><td>Less</td><td>Sass</td></tr><tr><td>Null</td><td><img width="300px" height="150px" src="https://ws1.sinaimg.cn/large/0073X7Nbly1fntxsqoiopj30p60kmn0e.jpg"></td></tr></table>
 
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="开发中如何选择使用Less还是Sass"><a href="#开发中如何选择使用Less还是Sass" class="headerlink" title="开发中如何选择使用Less还是Sass?"></a>开发中如何选择使用Less还是Sass?</h3><ul>
-<li><strong>相同点</strong>：两者都是CSS预处理器，都具有相同的功能，可以帮助我们快速编译代码，帮助我们更好的维护我们的样式代码或者说维护项目吧。</li>
-<li><strong>不同点</strong>：Less相对清晰明了,易于上手,对编译环境要求比较宽松。Sass的功能比Less强大,是下一个层次的选择，适合稍微有经验的前端开发者的工具。</li>
-<li>根据业务线需求、组内成员情况，进行约定</li>
+<li><strong>相同点</strong>：两者都是 CSS 预处理器，都具有相同的功能，可以帮助我们快速编译代码，帮助我们更好的维护我们的样式代码或者说维护项目吧。</li>
+<li><strong>不同点</strong>：Less 相对清晰明了，易于上手，对编译环境要求比较宽松。Sass 的功能比 Less 强大，是下一个层次的选择，适合稍微有经验的前端开发者的工具。</li>
+<li>根据业务线需求、组内成员情况，进行约定。</li>
 <li>按需使用，随习惯所为！</li>
 </ul>
 <h3 id="相关参考"><a href="#相关参考" class="headerlink" title="相关参考"></a>相关参考</h3><blockquote>
-<p><a href="http://lesscss.cn/" target="_blank" rel="external">http://lesscss.cn/</a> </p>
+<p><a href="http://lessCSS.cn/" target="_blank" rel="external">http://lessCSS.cn/</a> </p>
 <p><a href="https://www.sass.hk/" target="_blank" rel="external">https://www.sass.hk/</a></p>
 </blockquote>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;通过一些对Less 和 Sass 的研究和学习,逐渐发现了它们一些共同特征（混入、参数混入、嵌套规则、运算、颜色功能、名字空间、作用域、JavaScript 赋值）和 不同之处，这里主要总结一些 Less 和 Sass &lt;strong&gt;用法不同之处&lt;/strong&gt;。&lt;/p&gt;
+      &lt;p&gt;通过一些对Less 和 Sass 的研究和学习，逐渐发现了它们一些共同特征（混入、参数混入、嵌套规则、运算、颜色功能、名字空间、作用域、JavaScript 赋值）和 不同之处，这里主要总结一些 Less 和 Sass &lt;strong&gt;用法不同之处&lt;/strong&gt;。&lt;/p&gt;
     
     </summary>
     
@@ -2637,141 +2838,6 @@ self.showLa.attributedText = muAttributedStr;
     
     
       <category term="html" scheme="http://xgfe.github.io/tags/html/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何将html保存成图片</title>
-    <link href="http://xgfe.github.io/2017/09/07/huanglifen/html2image/"/>
-    <id>http://xgfe.github.io/2017/09/07/huanglifen/html2image/</id>
-    <published>2017-09-06T16:00:00.000Z</published>
-    <updated>2017-09-21T09:33:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>如何将HTML保存成高清图片？本文带你一探究竟。<br><a id="more"></a></p>
-<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>现在流行于朋友圈分享的一些活动页，经常会玩这样的一个功能：将诸如测试之类的结果页保存成图片分享至朋友圈，以此来吸引用户参与，提高活动的pv和uv。</p>
-<h2 id="如何做"><a href="#如何做" class="headerlink" title="如何做"></a>如何做</h2><p>一般来说有这两个技术步骤：</p>
-<ul>
-<li>html2canvas</li>
-<li>canvas2image</li>
-</ul>
-<p>当需要连同html中跨域的图片一起转换时，需要增加一个base步骤：</p>
-<ul>
-<li>image proxy（因为canvas2image不支持跨域的图片, 本篇只是点到，不做展开）</li>
-<li>html2canvas</li>
-<li>canvas2image</li>
-</ul>
-<p>首先需要将html转成canvas， 再接着将canvas转为图片，至此，用户用手机自带的功能长按就可以保存，当然你也可以自己做长按保存的功能，canvas2image 提供了保存成图片的api。</p>
-<h2 id="html2canvas"><a href="#html2canvas" class="headerlink" title="html2canvas"></a>html2canvas</h2><h3 id="如何转换的"><a href="#如何转换的" class="headerlink" title="如何转换的"></a>如何转换的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">The script traverses through the DOM of the page it is loaded on. </div><div class="line">It gathers information on all the elements there, which it then uses to build a representation of the page. </div><div class="line">In other words, it does not actually take a screenshot of the page, </div><div class="line">but builds a representation of it based on the properties it reads from the DOM.</div><div class="line">As a result, it is only able to render correctly properties that it understands, </div><div class="line">meaning there are many CSS properties which do not work.</div></pre></td></tr></table></figure>
-<p>翻译过来就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">通过脚本去遍历页面加载的DOM元素，收集所有元素的有关信息，然后用收集到的信息来构建页面的表示。</div><div class="line">换句话说，它实际上并不是页面的屏幕截图，而是基于从DOM读取的属性来构建页面的表示。</div><div class="line">因此，它只能够正确地呈现其理解的属性，这就意味着有许多CSS属性不起作用。</div></pre></td></tr></table></figure></p>
-<h3 id="制约点"><a href="#制约点" class="headerlink" title="制约点"></a>制约点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">All the images that the script uses need to reside under the same origin </div><div class="line">for it to be able to read them without the assistance of a proxy. </div><div class="line">Similarly, if you have other canvas elements on the page, which have been </div><div class="line">tainted with cross-origin content, they will become dirty and no longer readable by html2canvas.</div><div class="line">The script doesn&apos;t render plugin content such as Flash or Java applets.</div><div class="line">It doesn&apos;t render iframe content either.</div></pre></td></tr></table></figure>
-<p>翻译过来就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">脚本使用的所有图像都必须位于相同的起源点，以便脚本不需要代理协助就可以读取它们的信息。</div><div class="line">类似地，如果页面上有其他canvas元素，这些元素已经被不是同源的内容所污染，就不能被html2canvas读取。</div><div class="line">简单来说就两点：</div><div class="line">- 不支持跨域</div><div class="line">- 不支持HTML中包含canvas</div></pre></td></tr></table></figure></p>
-<p>参数说明</p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th style="text-align:center">Type</th>
-<th style="text-align:center">Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>allowTaint</td>
-<td style="text-align:center">boolean</td>
-<td style="text-align:center">false</td>
-<td>是否允许图片跨域</td>
-</tr>
-<tr>
-<td>background</td>
-<td style="text-align:center">string</td>
-<td style="text-align:center">#fff</td>
-<td>画布背景颜色，如果DOM中未指定，值为透明</td>
-</tr>
-<tr>
-<td>height</td>
-<td style="text-align:center">number</td>
-<td style="text-align:center">null</td>
-<td>以像素为单位定义画布的高度。 如果为空，则按窗口的高度来渲染</td>
-</tr>
-<tr>
-<td>width</td>
-<td style="text-align:center">number</td>
-<td style="text-align:center">null</td>
-<td>以像素为单位定义画布的宽度。 如果为空，则按窗口的宽度来渲染</td>
-</tr>
-<tr>
-<td>letterRendering</td>
-<td style="text-align:center">boolean</td>
-<td style="text-align:center">false</td>
-<td>是否分别渲染每一个字符，必要时使用letter-spacing</td>
-</tr>
-<tr>
-<td>logging</td>
-<td style="text-align:center">boolean</td>
-<td style="text-align:center">false</td>
-<td>是否开启控制台日志</td>
-</tr>
-<tr>
-<td>proxy</td>
-<td style="text-align:center">string</td>
-<td style="text-align:center">undefined</td>
-<td>设置用于加载跨域图片的代理域名，如果为空，跨域的图片不会被加载</td>
-</tr>
-<tr>
-<td>taintTest</td>
-<td style="text-align:center">boolean</td>
-<td style="text-align:center">true</td>
-<td>设置是否在渲染前检测每张图片加载完</td>
-</tr>
-<tr>
-<td>timeout</td>
-<td style="text-align:center">number</td>
-<td style="text-align:center">0</td>
-<td>设置超时加载图片，毫秒为单位，设置为0则无超时</td>
-</tr>
-<tr>
-<td>useCORS</td>
-<td style="text-align:center">boolean</td>
-<td style="text-align:center">false</td>
-<td>是否在还原到代理服务器之前尝试将跨域的图像加载为CORS</td>
-</tr>
-<tr>
-<td>scale</td>
-<td style="text-align:center">number</td>
-<td style="text-align:center">1</td>
-<td>转换时放大的倍数，可以通过获取设备的像素密度来定义，也可以自定义</td>
-</tr>
-</tbody>
-</table>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>转换后的canvas会传递到回调函数中<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">html2canvas(element, &#123;</div><div class="line">    <span class="attr">onrendered</span>: <span class="function"><span class="keyword">function</span>(<span class="params">canvas</span>) </span>&#123;</div><div class="line">        <span class="comment">// canvas is the final rendered &lt;canvas&gt; element</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">或者</div><div class="line"></div><div class="line">html2canvas(element, options).then(<span class="function"><span class="keyword">function</span> (<span class="params">canvas</span>) </span>&#123;</div><div class="line">    <span class="comment">// canvas is the final rendered &lt;canvas&gt; element</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>想要了解更多信息，请前往官网地址：<a href="http://html2canvas.hertzen.com/" target="_blank" rel="external">http://html2canvas.hertzen.com/</a></p>
-<h2 id="canvas2image"><a href="#canvas2image" class="headerlink" title="canvas2image"></a>canvas2image</h2><p>你可以使用的API:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Canvas2Image.saveAsImage(canvasObj, width, height, type)</div><div class="line">Canvas2Image.saveAsPNG(canvasObj, width, height)</div><div class="line">Canvas2Image.saveAsJPEG(canvasObj, width, height)</div><div class="line">Canvas2Image.saveAsGIF(canvasObj, width, height)</div><div class="line">Canvas2Image.saveAsBMP(canvasObj, width, height)</div><div class="line"></div><div class="line">Canvas2Image.convertToImage(canvasObj, width, height, type)</div><div class="line">Canvas2Image.convertToPNG(canvasObj, width, height)</div><div class="line">Canvas2Image.convertToJPEG(canvasObj, width, height)</div><div class="line">Canvas2Image.convertToGIF(canvasObj, width, height)</div><div class="line">Canvas2Image.convertToBMP(canvasObj, width, height)</div></pre></td></tr></table></figure></p>
-<h2 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h2><p>html：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"html-source width-6 fl"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/timg.jpeg"</span> <span class="attr">class</span>=<span class="string">"width-6"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>图片描述文字<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"option-content width-4 fl"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"button start-to-do"</span>&gt;</span>转换成图片<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"button"</span>&gt;</span>下载图片<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"png-content width-6 fl"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>核心js：为获得高清的图片，先以N倍的尺寸转换成canvas, 再1：1转换成png, 最后通过样式去控制最后生成的图片展示尺寸。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> me = <span class="keyword">this</span>;</div><div class="line"><span class="keyword">var</span> sourceContent = me.$el.$htmlSource;</div><div class="line"><span class="keyword">var</span> width = sourceContent.width();</div><div class="line"><span class="keyword">var</span> height = sourceContent.height();</div><div class="line"><span class="keyword">var</span> offsetTop = sourceContent.offset().top;</div><div class="line"><span class="keyword">var</span> offsetLeft = sourceContent.offset().left;</div><div class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">"canvas"</span>);</div><div class="line"><span class="keyword">var</span> canvas2D = canvas.getContext(<span class="string">"2d"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 不能小于1，否则图片不完整，通过获取设备的像素密度不能统一得到清晰的图片，建议写固定值</span></div><div class="line"><span class="keyword">var</span> scale = N;</div><div class="line">canvas.width = (width + offsetLeft) * scale;</div><div class="line">canvas.height = (height + offsetTop) * scale;</div><div class="line">canvas2D.scale(scale, scale);</div><div class="line">canvas2D.font = <span class="string">"Microsoft YaHei"</span>;</div><div class="line"><span class="keyword">var</span> options = &#123;</div><div class="line"></div><div class="line">    <span class="comment">//检测每张图片都已经加载完成</span></div><div class="line">    tainttest:<span class="literal">true</span>,</div><div class="line">    <span class="attr">canvas</span>: canvas,</div><div class="line">    <span class="attr">scale</span>: scale,</div><div class="line"></div><div class="line">    <span class="comment">//dom 放大的宽度，放大倍数和清晰度在一定范围内成正相关</span></div><div class="line">    width: width + offsetLeft,</div><div class="line"></div><div class="line">    <span class="comment">// 开启日志，可以方便调试</span></div><div class="line">    logging: <span class="literal">true</span>,</div><div class="line"></div><div class="line">    <span class="comment">//dom 放大的宽度，放大倍数和清晰度在一定范围内成正相关</span></div><div class="line">    height: height + offsetTop</div><div class="line">&#125;;</div><div class="line">html2canvas(sourceContent, options).then(<span class="function"><span class="keyword">function</span> (<span class="params">canvas</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> img = <span class="built_in">window</span>.Canvas2Image.convertToPNG(canvas, width * scale, height * scale);</div><div class="line">    me.$el.$pngContent.append(img);</div><div class="line"></div><div class="line">    <span class="comment">// 将图片恢复到原始大小</span></div><div class="line">    me.$el.$pngContent.find(<span class="string">'img'</span>).css(&#123;</div><div class="line">        <span class="attr">width</span>: width,</div><div class="line">        <span class="attr">height</span>: height</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>下面是不同的倍数N，生成的不同清晰度的图片：<br><img src="http://p0.meituan.net/xgfe/9a8e54d6457a682eb167d77fd1d2d2ef594412.png" alt="效果图（倍数N: 1~3.5）"></p>
-<p>之前做过一次项目，N设为3 可以满足多种主流手机的高清图片要求。</p>
-<h3 id="附完整源代码"><a href="#附完整源代码" class="headerlink" title="附完整源代码"></a>附完整源代码</h3><p>需要说明的是： 页面需要运行于服务器中转换才能生效。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">content</span>=<span class="string">"width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"</span> <span class="attr">name</span>=<span class="string">"viewport"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">        (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> win = <span class="built_in">window</span>, html = <span class="built_in">document</span>.documentElement;</div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">setRem</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                <span class="keyword">var</span> width = html.getBoundingClientRect().width;</div><div class="line">                width = (width == <span class="number">980</span>) ? <span class="number">360</span> : width;</div><div class="line">                <span class="keyword">var</span> rem = width / <span class="number">20</span>;</div><div class="line">                win.rem = rem;</div><div class="line">                html.style.fontSize = rem + <span class="string">'px'</span>;</div><div class="line">            &#125;</div><div class="line">            setRem();</div><div class="line">        &#125;)();</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined"></span></div><div class="line">        * &#123;</div><div class="line">            padding: 0;</div><div class="line">            margin: 0;</div><div class="line">        &#125;</div><div class="line">        .main &#123;</div><div class="line">            padding: 0.2rem;</div><div class="line">            background: #fafafa;</div><div class="line">            overflow: auto;</div><div class="line">        &#125;</div><div class="line">        .width-2 &#123;</div><div class="line">            width: 2rem;</div><div class="line">        &#125;</div><div class="line">        .fl &#123;</div><div class="line">            float: left;</div><div class="line">        &#125;</div><div class="line">        .html-source &#123;</div><div class="line">            height: 10rem;</div><div class="line">        &#125;</div><div class="line">        .html-text &#123;</div><div class="line">            font-size: 0.2rem;</div><div class="line">        &#125;</div><div class="line">        .png-content &#123;</div><div class="line">            height: 20rem;</div><div class="line">        &#125;</div><div class="line">        .png-content img &#123;</div><div class="line">            border: 0;</div><div class="line">            margin: 0 0.2rem;</div><div class="line">        &#125;</div><div class="line">        .button &#123;</div><div class="line">            color: #fff;</div><div class="line">            background-color: #23b7e5;</div><div class="line">            border-color: #23b7e5;</div><div class="line">            font-weight: 500;</div><div class="line">            border-radius: 0.1rem;</div><div class="line">            outline: 0;</div><div class="line">            font-size: 0.2rem;</div><div class="line">            margin: 0 0.5rem;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"html-source width-2 fl"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/timg.jpeg"</span> <span class="attr">class</span>=<span class="string">"width-2"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"html-text"</span>&gt;</span>图片描述文字<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"option-content fl"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"button start-to-do"</span>&gt;</span>转换<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"png-content"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/jquery-3.2.1.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/html2canvas.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/canvas2image.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> page = &#123;</div><div class="line">        <span class="attr">init</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">this</span>.initDom();</div><div class="line">            <span class="keyword">this</span>.initEvent();</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">initDom</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">this</span>.$el = &#123;&#125;;</div><div class="line">            <span class="keyword">this</span>.$el.$startBtn = $(<span class="string">'.start-to-do'</span>);</div><div class="line">            <span class="keyword">this</span>.$el.$htmlSource = $(<span class="string">'.html-source'</span>);</div><div class="line">            <span class="keyword">this</span>.$el.$pngContent = $(<span class="string">'.png-content'</span>);</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">initEvent</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> me = <span class="keyword">this</span>;</div><div class="line">            <span class="keyword">this</span>.$el.$startBtn.on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">2</span>; i &lt; <span class="number">8</span>; i++) &#123;</div><div class="line">                    me.initSavePng(i * <span class="number">0.5</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">initSavePng</span>: <span class="function"><span class="keyword">function</span>(<span class="params">N</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> me = <span class="keyword">this</span>;</div><div class="line">            <span class="keyword">var</span> sourceContent = me.$el.$htmlSource;</div><div class="line">            <span class="keyword">var</span> width = sourceContent.width();</div><div class="line">            <span class="keyword">var</span> height = sourceContent.height();</div><div class="line">            <span class="keyword">var</span> offsetTop = sourceContent.offset().top;</div><div class="line">            <span class="keyword">var</span> offsetLeft = sourceContent.offset().left;</div><div class="line">            <span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">"canvas"</span>);</div><div class="line">            <span class="keyword">var</span> canvas2D = canvas.getContext(<span class="string">"2d"</span>);</div><div class="line"></div><div class="line">            <span class="comment">// 不能小于1，否则图片不完整</span></div><div class="line">            <span class="keyword">var</span> scale = N;</div><div class="line">            canvas.width = (width + offsetLeft) * scale;</div><div class="line">            canvas.height = (height + offsetTop) * scale;</div><div class="line">            canvas2D.scale(scale, scale);</div><div class="line">            canvas2D.font = <span class="string">"Microsoft YaHei"</span>;</div><div class="line">            <span class="keyword">var</span> options = &#123;</div><div class="line"></div><div class="line">                <span class="comment">//检测每张图片都已经加载完成</span></div><div class="line">                tainttest:<span class="literal">true</span>,</div><div class="line">                <span class="attr">canvas</span>: canvas,</div><div class="line">                <span class="attr">scale</span>: scale,</div><div class="line"></div><div class="line">                <span class="comment">//dom 放大的宽度，放大倍数和清晰度在一定范围内成正相关</span></div><div class="line">                width: width + offsetLeft,</div><div class="line"></div><div class="line">                <span class="comment">// 开启日志，可以方便调试</span></div><div class="line">                logging: <span class="literal">true</span>,</div><div class="line"></div><div class="line">                <span class="comment">//dom 放大的宽度，放大倍数和清晰度在一定范围内成正相关</span></div><div class="line">                height: height + offsetTop</div><div class="line">            &#125;;</div><div class="line">            html2canvas(sourceContent, options).then(<span class="function"><span class="keyword">function</span> (<span class="params">canvas</span>) </span>&#123;</div><div class="line">                <span class="keyword">var</span> img = <span class="built_in">window</span>.Canvas2Image.convertToPNG(canvas, width * scale, height * scale);</div><div class="line">                me.$el.$pngContent.append(img);</div><div class="line"></div><div class="line">                <span class="comment">// 将图片恢复到原始大小</span></div><div class="line">                me.$el.$pngContent.find(<span class="string">'img'</span>).css(&#123;</div><div class="line">                    <span class="attr">width</span>: width,</div><div class="line">                    <span class="attr">height</span>: height</div><div class="line">                &#125;);</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    page.init();</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>完整示例代码git地址：<a href="https://github.com/huanlifen/html2image" target="_blank" rel="external">https://github.com/huanlifen/html2image</a></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1.<a href="https://github.com/niklasvh/html2canvas" target="_blank" rel="external">原版html2canvas</a><br>2.<a href="https://github.com/omwteam/html2canvas" target="_blank" rel="external">优化版html2canvas 0.5.0-beta4</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;如何将HTML保存成高清图片？本文带你一探究竟。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="huanglifen" scheme="http://xgfe.github.io/categories/huanglifen/"/>
-    
-    
-      <category term="html2canvas" scheme="http://xgfe.github.io/tags/html2canvas/"/>
-    
-      <category term="canvas2image" scheme="http://xgfe.github.io/tags/canvas2image/"/>
-    
-      <category term="html2image" scheme="http://xgfe.github.io/tags/html2image/"/>
     
   </entry>
   
