@@ -3,12 +3,82 @@
 
     
   <url>
+    <loc>http://xgfe.ienav.com/2018/04/26/wangpeng/lottie_android/</loc>
+    <lastmod>2018-05-29T04:35:25.000Z</lastmod>
+    <data>
+        <display>
+        <title>动画库 Lottie 的使用</title>
+        <pubTime>2018-04-26T08:26:00.000Z</pubTime>
+        
+        <tag>Android </tag>
+         
+        <tag>animation </tag>
+         
+        <tag>lottie </tag>
+         
+         
+           
+             
+              <breadCrumb title="w.p" url="http://xgfe.ienav.com/categories/w-p/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2018/04/26/jiangxiang/internationalize-your-react-project/</loc>
+    <lastmod>2018-05-29T03:15:12.000Z</lastmod>
+    <data>
+        <display>
+        <title>实现React国际化</title>
+        <pubTime>2018-04-26T07:00:00.000Z</pubTime>
+        
+        <tag>React </tag>
+         
+        <tag>国际化 </tag>
+         
+         
+           
+             
+              <breadCrumb title="jiangxiang" url="http://xgfe.ienav.com/categories/jiangxiang/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2018/01/26/zhoushiqi/Web%E7%AB%AF%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88/</loc>
+    <lastmod>2018-05-29T03:15:12.000Z</lastmod>
+    <data>
+        <display>
+        <title>Web 端屏幕适配方案</title>
+        <pubTime>2018-01-25T16:00:00.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+        <tag>屏幕适配 </tag>
+         
+        <tag>移动端 </tag>
+         
+         
+           
+             
+              <breadCrumb title="zhoushiqi" url="http://xgfe.ienav.com/categories/zhoushiqi/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xgfe.ienav.com/2018/01/26/zhoushiqi/Less-VS-Sass/</loc>
-    <lastmod>2018-04-25T07:49:50.000Z</lastmod>
+    <lastmod>2018-05-29T03:15:12.000Z</lastmod>
     <data>
         <display>
         <title>Less Vs Sass</title>
-        <pubTime>2018-01-26T04:00:21.000Z</pubTime>
+        <pubTime>2018-01-25T16:00:00.000Z</pubTime>
         
         <tag>CSS </tag>
          
@@ -119,28 +189,6 @@
 
     
   <url>
-    <loc>http://xgfe.ienav.com/2018/01/04/lwp/Epoxy_RecyclerView_1/</loc>
-    <lastmod>2018-03-20T03:07:52.000Z</lastmod>
-    <data>
-        <display>
-        <title>Epoxy：构建复杂页面的框架（一）</title>
-        <pubTime>2018-01-04T06:13:36.000Z</pubTime>
-        
-        <tag>Android </tag>
-         
-        <tag>Epoxy </tag>
-         
-         
-           
-             
-              <breadCrumb title="lwp" url="http://xgfe.ienav.com/categories/lwp/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://xgfe.ienav.com/2018/02/09/caominkang/ListView%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
     <lastmod>2018-03-20T03:07:52.000Z</lastmod>
     <data>
@@ -180,6 +228,28 @@
            
              
               <breadCrumb title="zhouyinian" url="http://xgfe.ienav.com/categories/zhouyinian/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2018/01/04/lwp/Epoxy_RecyclerView_1/</loc>
+    <lastmod>2018-03-20T03:07:52.000Z</lastmod>
+    <data>
+        <display>
+        <title>Epoxy：构建复杂页面的框架（一）</title>
+        <pubTime>2018-01-04T06:13:36.000Z</pubTime>
+        
+        <tag>Android </tag>
+         
+        <tag>Epoxy </tag>
+         
+         
+           
+             
+              <breadCrumb title="lwp" url="http://xgfe.ienav.com/categories/lwp/"/>
           
         </display>
     </data>
@@ -255,6 +325,28 @@
 
     
   <url>
+    <loc>http://xgfe.ienav.com/2017/11/30/lwp/AbViewUtil/</loc>
+    <lastmod>2018-01-16T03:04:37.000Z</lastmod>
+    <data>
+        <display>
+        <title>AbViewUtil屏幕适配方法</title>
+        <pubTime>2017-11-30T06:34:30.000Z</pubTime>
+        
+        <tag>Android </tag>
+         
+        <tag>适配 </tag>
+         
+         
+           
+             
+              <breadCrumb title="lwp" url="http://xgfe.ienav.com/categories/lwp/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xgfe.ienav.com/2017/11/16/wangyue/this/</loc>
     <lastmod>2018-01-16T03:04:37.000Z</lastmod>
     <data>
@@ -272,28 +364,6 @@
            
              
               <breadCrumb title="wangyue" url="http://xgfe.ienav.com/categories/wangyue/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xgfe.ienav.com/2017/11/30/lwp/AbViewUtil/</loc>
-    <lastmod>2018-01-16T03:04:37.000Z</lastmod>
-    <data>
-        <display>
-        <title>AbViewUtil屏幕适配方法</title>
-        <pubTime>2017-11-30T06:34:30.000Z</pubTime>
-        
-        <tag>Android </tag>
-         
-        <tag>适配 </tag>
-         
-         
-           
-             
-              <breadCrumb title="lwp" url="http://xgfe.ienav.com/categories/lwp/"/>
           
         </display>
     </data>
@@ -361,26 +431,6 @@
 
     
   <url>
-    <loc>http://xgfe.ienav.com/2017/09/22/Sudaxi/attributeStr1/</loc>
-    <lastmod>2017-10-16T10:03:20.000Z</lastmod>
-    <data>
-        <display>
-        <title>关于富文本AttributedString的使用总结</title>
-        <pubTime>2017-09-22T08:00:00.000Z</pubTime>
-        
-        <tag>iOS </tag>
-         
-         
-           
-             
-              <breadCrumb title="Sudaxi" url="http://xgfe.ienav.com/categories/Sudaxi/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://xgfe.ienav.com/2017/09/20/Young/DOM-size/</loc>
     <lastmod>2017-10-16T10:03:20.000Z</lastmod>
     <data>
@@ -396,6 +446,26 @@
            
              
               <breadCrumb title="Young" url="http://xgfe.ienav.com/categories/Young/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2017/09/22/Sudaxi/attributeStr1/</loc>
+    <lastmod>2017-10-16T10:03:20.000Z</lastmod>
+    <data>
+        <display>
+        <title>关于富文本AttributedString的使用总结</title>
+        <pubTime>2017-09-22T08:00:00.000Z</pubTime>
+        
+        <tag>iOS </tag>
+         
+         
+           
+             
+              <breadCrumb title="Sudaxi" url="http://xgfe.ienav.com/categories/Sudaxi/"/>
           
         </display>
     </data>
@@ -467,6 +537,26 @@
 
     
   <url>
+    <loc>http://xgfe.ienav.com/2017/09/07/felix/html-parsing-and-resources-load/</loc>
+    <lastmod>2017-09-21T09:33:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>HTML解析和资源加载</title>
+        <pubTime>2017-09-07T03:00:00.000Z</pubTime>
+        
+        <tag>html </tag>
+         
+         
+           
+             
+              <breadCrumb title="felix" url="http://xgfe.ienav.com/categories/felix/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xgfe.ienav.com/2017/09/17/ivanchou/layout-with-constraintlayout-by-programming/</loc>
     <lastmod>2017-09-21T09:33:00.000Z</lastmod>
     <data>
@@ -488,26 +578,6 @@
     </url>
 
     
-    
-  <url>
-    <loc>http://xgfe.ienav.com/2017/09/07/felix/html-parsing-and-resources-load/</loc>
-    <lastmod>2017-09-21T09:33:00.000Z</lastmod>
-    <data>
-        <display>
-        <title>HTML解析和资源加载</title>
-        <pubTime>2017-09-07T03:00:00.000Z</pubTime>
-        
-        <tag>html </tag>
-         
-         
-           
-             
-              <breadCrumb title="felix" url="http://xgfe.ienav.com/categories/felix/"/>
-          
-        </display>
-    </data>
-    </url>
-
     
   <url>
     <loc>http://xgfe.ienav.com/2017/09/07/huanglifen/html2image/</loc>
@@ -556,52 +626,6 @@
 
     
   <url>
-    <loc>http://xgfe.ienav.com/2017/05/15/jakii/cocos2d-x%20introduction/</loc>
-    <lastmod>2017-07-06T09:59:23.000Z</lastmod>
-    <data>
-        <display>
-        <title>cocos2d-Js 基础入门</title>
-        <pubTime>2017-05-15T08:30:00.000Z</pubTime>
-        
-        <tag>javascript </tag>
-         
-        <tag>cocos2d-x </tag>
-         
-         
-           
-             
-              <breadCrumb title="jakii" url="http://xgfe.ienav.com/categories/jakii/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xgfe.ienav.com/2016/07/01/y8n/e2e-test-protractor/</loc>
-    <lastmod>2017-07-06T09:59:23.000Z</lastmod>
-    <data>
-        <display>
-        <title>E2E测试之protractor</title>
-        <pubTime>2016-07-01T02:58:49.000Z</pubTime>
-        
-        <tag>测试 </tag>
-         
-        <tag>E2E </tag>
-         
-        <tag>protractor </tag>
-         
-         
-           
-             
-              <breadCrumb title="y8n" url="http://xgfe.ienav.com/categories/y8n/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://xgfe.ienav.com/2016/08/12/y8n/angular-directive-attributes/</loc>
     <lastmod>2017-07-06T09:59:23.000Z</lastmod>
     <data>
@@ -614,28 +638,6 @@
         <tag>指令 </tag>
          
         <tag>Directive </tag>
-         
-         
-           
-             
-              <breadCrumb title="y8n" url="http://xgfe.ienav.com/categories/y8n/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xgfe.ienav.com/2017/05/04/y8n/understand-virtual-dom/</loc>
-    <lastmod>2017-07-06T09:59:23.000Z</lastmod>
-    <data>
-        <display>
-        <title>理解Virtual DOM</title>
-        <pubTime>2017-05-04T04:30:13.000Z</pubTime>
-        
-        <tag>react </tag>
-         
-        <tag>virtual dom </tag>
          
          
            
@@ -734,6 +736,74 @@
 
     
   <url>
+    <loc>http://xgfe.ienav.com/2016/07/01/y8n/e2e-test-protractor/</loc>
+    <lastmod>2017-07-06T09:59:23.000Z</lastmod>
+    <data>
+        <display>
+        <title>E2E测试之protractor</title>
+        <pubTime>2016-07-01T02:58:49.000Z</pubTime>
+        
+        <tag>测试 </tag>
+         
+        <tag>E2E </tag>
+         
+        <tag>protractor </tag>
+         
+         
+           
+             
+              <breadCrumb title="y8n" url="http://xgfe.ienav.com/categories/y8n/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2017/05/04/y8n/understand-virtual-dom/</loc>
+    <lastmod>2017-07-06T09:59:23.000Z</lastmod>
+    <data>
+        <display>
+        <title>理解Virtual DOM</title>
+        <pubTime>2017-05-04T04:30:13.000Z</pubTime>
+        
+        <tag>react </tag>
+         
+        <tag>virtual dom </tag>
+         
+         
+           
+             
+              <breadCrumb title="y8n" url="http://xgfe.ienav.com/categories/y8n/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2017/02/17/shsoul/%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0IOS%E5%8E%9F%E7%94%9F%E5%BC%B9%E7%AA%97%E6%95%88%E6%9E%9C%E7%9A%84/</loc>
+    <lastmod>2017-07-06T09:59:23.000Z</lastmod>
+    <data>
+        <display>
+        <title>我是如何实现IOS原生弹窗效果的</title>
+        <pubTime>2017-02-17T04:10:21.000Z</pubTime>
+        
+        <tag>IOS </tag>
+         
+        <tag>UI </tag>
+         
+         
+           
+             
+              <breadCrumb title="shsoul" url="http://xgfe.ienav.com/categories/shsoul/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xgfe.ienav.com/2017/05/27/shsoul/SDWebImage%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/</loc>
     <lastmod>2017-07-06T09:59:23.000Z</lastmod>
     <data>
@@ -749,28 +819,6 @@
            
              
               <breadCrumb title="shsoul" url="http://xgfe.ienav.com/categories/shsoul/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xgfe.ienav.com/2017/05/03/zhouxiong/Thrift/</loc>
-    <lastmod>2017-07-06T09:59:23.000Z</lastmod>
-    <data>
-        <display>
-        <title>远程调用框架Thrift分享</title>
-        <pubTime>2017-05-02T16:00:00.000Z</pubTime>
-        
-        <tag>Thrift </tag>
-         
-        <tag>NodeJS </tag>
-         
-         
-           
-             
-              <breadCrumb title="zhouxiong" url="http://xgfe.ienav.com/categories/zhouxiong/"/>
           
         </display>
     </data>
@@ -822,6 +870,28 @@
 
     
   <url>
+    <loc>http://xgfe.ienav.com/2017/05/15/jakii/cocos2d-x%20introduction/</loc>
+    <lastmod>2017-07-06T09:59:23.000Z</lastmod>
+    <data>
+        <display>
+        <title>cocos2d-Js 基础入门</title>
+        <pubTime>2017-05-15T08:30:00.000Z</pubTime>
+        
+        <tag>javascript </tag>
+         
+        <tag>cocos2d-x </tag>
+         
+         
+           
+             
+              <breadCrumb title="jakii" url="http://xgfe.ienav.com/categories/jakii/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xgfe.ienav.com/2017/05/03/LexHuang/web-worker/</loc>
     <lastmod>2017-07-06T09:59:23.000Z</lastmod>
     <data>
@@ -844,85 +914,21 @@
 
     
   <url>
-    <loc>http://xgfe.ienav.com/2017/02/17/shsoul/%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0IOS%E5%8E%9F%E7%94%9F%E5%BC%B9%E7%AA%97%E6%95%88%E6%9E%9C%E7%9A%84/</loc>
+    <loc>http://xgfe.ienav.com/2017/05/03/zhouxiong/Thrift/</loc>
     <lastmod>2017-07-06T09:59:23.000Z</lastmod>
     <data>
         <display>
-        <title>我是如何实现IOS原生弹窗效果的</title>
-        <pubTime>2017-02-17T04:10:21.000Z</pubTime>
+        <title>远程调用框架Thrift分享</title>
+        <pubTime>2017-05-02T16:00:00.000Z</pubTime>
         
-        <tag>IOS </tag>
+        <tag>Thrift </tag>
          
-        <tag>UI </tag>
+        <tag>NodeJS </tag>
          
          
            
              
-              <breadCrumb title="shsoul" url="http://xgfe.ienav.com/categories/shsoul/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xgfe.ienav.com/2015/11/30/felix/forms-in-angularjs-1.3/</loc>
-    <lastmod>2017-04-12T08:03:36.000Z</lastmod>
-    <data>
-        <display>
-        <title>学习如何使用AngularJs 1.3中的新form表单特性</title>
-        <pubTime>2015-11-30T14:34:00.000Z</pubTime>
-        
-        <tag>angularjs </tag>
-         
-        <tag>form </tag>
-         
-         
-           
-             
-              <breadCrumb title="felix" url="http://xgfe.ienav.com/categories/felix/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xgfe.ienav.com/2016/05/09/felix/funny-design-pattern/</loc>
-    <lastmod>2017-04-12T08:03:36.000Z</lastmod>
-    <data>
-        <display>
-        <title>趣味设计模式</title>
-        <pubTime>2016-05-08T16:00:00.000Z</pubTime>
-        
-        <tag>design pattern </tag>
-         
-         
-           
-             
-              <breadCrumb title="felix" url="http://xgfe.ienav.com/categories/felix/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xgfe.ienav.com/2015/12/22/penglu/Angular-Directive-01/</loc>
-    <lastmod>2017-04-12T08:03:36.000Z</lastmod>
-    <data>
-        <display>
-        <title>AngularJs 指令基础</title>
-        <pubTime>2015-12-22T08:00:00.000Z</pubTime>
-        
-        <tag>angularjs </tag>
-         
-        <tag>directive </tag>
-         
-         
-           
-             
-              <breadCrumb title="penglu" url="http://xgfe.ienav.com/categories/penglu/"/>
+              <breadCrumb title="zhouxiong" url="http://xgfe.ienav.com/categories/zhouxiong/"/>
           
         </display>
     </data>
@@ -940,6 +946,48 @@
         <tag>angularjs </tag>
          
         <tag>checkbox </tag>
+         
+         
+           
+             
+              <breadCrumb title="penglu" url="http://xgfe.ienav.com/categories/penglu/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2016/08/11/penglu/effective-javascript/</loc>
+    <lastmod>2017-04-12T08:03:36.000Z</lastmod>
+    <data>
+        <display>
+        <title>编写高质量JS代码</title>
+        <pubTime>2016-08-11T02:30:00.000Z</pubTime>
+        
+        <tag>javascript </tag>
+         
+        <tag>读书笔记 </tag>
+         
+         
+           
+             
+              <breadCrumb title="penglu" url="http://xgfe.ienav.com/categories/penglu/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2017/01/22/penglu/git-01/</loc>
+    <lastmod>2017-04-12T08:03:36.000Z</lastmod>
+    <data>
+        <display>
+        <title>Git常用命令和基础简介</title>
+        <pubTime>2017-01-22T03:00:00.000Z</pubTime>
+        
+        <tag>git </tag>
          
          
            
@@ -975,52 +1023,6 @@
            
              
               <breadCrumb title="HeOH" url="http://xgfe.ienav.com/categories/HeOH/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xgfe.ienav.com/2017/01/22/penglu/git-01/</loc>
-    <lastmod>2017-04-12T08:03:36.000Z</lastmod>
-    <data>
-        <display>
-        <title>Git常用命令和基础简介</title>
-        <pubTime>2017-01-22T03:00:00.000Z</pubTime>
-        
-        <tag>git </tag>
-         
-         
-           
-             
-              <breadCrumb title="penglu" url="http://xgfe.ienav.com/categories/penglu/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xgfe.ienav.com/2015/12/22/penglu/link-controller/</loc>
-    <lastmod>2017-04-12T08:03:36.000Z</lastmod>
-    <data>
-        <display>
-        <title>指令编译过程中link与controller函数执行顺序</title>
-        <pubTime>2015-12-22T14:30:00.000Z</pubTime>
-        
-        <tag>angularjs </tag>
-         
-        <tag>link </tag>
-         
-        <tag>controller </tag>
-         
-        <tag>编译顺序 </tag>
-         
-         
-           
-             
-              <breadCrumb title="penglu" url="http://xgfe.ienav.com/categories/penglu/"/>
           
         </display>
     </data>
@@ -1807,16 +1809,84 @@
 
     
   <url>
-    <loc>http://xgfe.ienav.com/2016/08/11/penglu/effective-javascript/</loc>
+    <loc>http://xgfe.ienav.com/2015/11/30/felix/forms-in-angularjs-1.3/</loc>
     <lastmod>2017-04-12T08:03:36.000Z</lastmod>
     <data>
         <display>
-        <title>编写高质量JS代码</title>
-        <pubTime>2016-08-11T02:30:00.000Z</pubTime>
+        <title>学习如何使用AngularJs 1.3中的新form表单特性</title>
+        <pubTime>2015-11-30T14:34:00.000Z</pubTime>
         
-        <tag>javascript </tag>
+        <tag>angularjs </tag>
          
-        <tag>读书笔记 </tag>
+        <tag>form </tag>
+         
+         
+           
+             
+              <breadCrumb title="felix" url="http://xgfe.ienav.com/categories/felix/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2016/05/09/felix/funny-design-pattern/</loc>
+    <lastmod>2017-04-12T08:03:36.000Z</lastmod>
+    <data>
+        <display>
+        <title>趣味设计模式</title>
+        <pubTime>2016-05-08T16:00:00.000Z</pubTime>
+        
+        <tag>design pattern </tag>
+         
+         
+           
+             
+              <breadCrumb title="felix" url="http://xgfe.ienav.com/categories/felix/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2015/12/22/penglu/Angular-Directive-01/</loc>
+    <lastmod>2017-04-12T08:03:36.000Z</lastmod>
+    <data>
+        <display>
+        <title>AngularJs 指令基础</title>
+        <pubTime>2015-12-22T08:00:00.000Z</pubTime>
+        
+        <tag>angularjs </tag>
+         
+        <tag>directive </tag>
+         
+         
+           
+             
+              <breadCrumb title="penglu" url="http://xgfe.ienav.com/categories/penglu/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xgfe.ienav.com/2015/12/22/penglu/link-controller/</loc>
+    <lastmod>2017-04-12T08:03:36.000Z</lastmod>
+    <data>
+        <display>
+        <title>指令编译过程中link与controller函数执行顺序</title>
+        <pubTime>2015-12-22T14:30:00.000Z</pubTime>
+        
+        <tag>angularjs </tag>
+         
+        <tag>link </tag>
+         
+        <tag>controller </tag>
+         
+        <tag>编译顺序 </tag>
          
          
            

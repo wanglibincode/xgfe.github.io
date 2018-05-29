@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xgfe.github.io/"/>
-  <updated>2018-04-25T07:45:54.000Z</updated>
+  <updated>2018-05-29T04:35:25.000Z</updated>
   <id>http://xgfe.github.io/</id>
   
   <author>
@@ -14,6 +14,190 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>动画库 Lottie 的使用</title>
+    <link href="http://xgfe.github.io/2018/04/26/wangpeng/lottie_android/"/>
+    <id>http://xgfe.github.io/2018/04/26/wangpeng/lottie_android/</id>
+    <published>2018-04-26T08:26:00.000Z</published>
+    <updated>2018-05-29T04:35:25.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文主要介绍动画开源库 Lottie 在 Android 中的使用。</p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在日常APP开发中，为了提升用户感官舒适度等原因，我们会在APP中加入适量动画。<br>而传统手写动画方式往往存在诸多问题:</p>
+<ul>
+<li><p><strong>动画复杂而实现困难</strong></p>
+</li>
+<li><p><strong>图片素材占用体积过大</strong></p>
+</li>
+<li><p><strong>不同Native平台都需各自实现，开发成本高</strong></p>
+</li>
+<li><p><strong>不同Native平台实现的最终效果不一致</strong></p>
+</li>
+<li><p><strong>后期视觉联调差异化大</strong></p>
+</li>
+</ul>
+<p><img src="http://p0.meituan.com/tuanpic/lottie_android_headache.jpeg" alt="">  </p>
+<p><em>难道就没有一种简便且高效的方案来减缓或解决上述问题吗？</em></p>
+<p>答: 有的，那就是本文要介绍的主角 <strong>Lottie</strong>。</p>
+<h2 id="一、Lottie-是什么？"><a href="#一、Lottie-是什么？" class="headerlink" title="一、Lottie 是什么？"></a>一、Lottie 是什么？</h2><blockquote>
+<p>Lottie是Airbnb开源的一个面向IOS、Android、React Native的动画库，可以解析用 Adobe After Effects 制作动画后通过 Bodymovin 插件导出的 Json 数据文件并在移动端原生渲染。</p>
+</blockquote>
+<p>通俗点说，它是一款动画开源库，通过解析特定的Json文件或Json文本，可直接在移动端上渲染出复杂的动画效果。</p>
+<p><img src="http://p0.meituan.com/tuanpic/lottie_android_flow.png" alt="参考图释"></p>
+<h2 id="二、Lottie-能干什么"><a href="#二、Lottie-能干什么" class="headerlink" title="二、Lottie 能干什么?"></a>二、Lottie 能干什么?</h2><p><strong>它可以简便高效的实现复杂动画，替代传统低效的手写动画方式。</strong> </p>
+<p>动画展示:</p>
+<p><img src="http://p0.meituan.com/tuanpic/lottie_android_example_4.gif" alt=""></p>
+<p>上方的动画是通过Lottie直接实现的。</p>
+<p>如果我们使用手写代码方式实现，可以说是很难！  </p>
+<p>而通过 Lottie 实现时，需要的仅是一个Json文件或一段Json文本，并通过简洁的代码集成即可。</p>
+<p>集成代码可能精简到如下模样:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">com.airbnb.lottie.LottieAnimationView</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/animation_view"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">    <span class="attr">app:lottie_rawRes</span>=<span class="string">"@raw/anim_lottie"</span></div><div class="line">    <span class="attr">app:lottie_loop</span>=<span class="string">"true"</span></div><div class="line">    <span class="attr">app:lottie_autoPlay</span>=<span class="string">"true"</span> /&gt;</div></pre></td></tr></table></figure>
+<h2 id="三、为什么使用-Lottie"><a href="#三、为什么使用-Lottie" class="headerlink" title="三、为什么使用 Lottie?"></a>三、为什么使用 Lottie?</h2><ul>
+<li><p><strong>简便，开发成本低</strong><br>相对于传统方式，动画不再是全部手写，所需做得只是嵌入XML并配置动画属性，集成快，开发时间少，开发成本低。    </p>
+</li>
+<li><p><strong>不同 Native 平台效果基本一致</strong><br>渲染交由Lottie引擎内部实现，无需开发者处理平台差异，多平台共用同一个动画配置文件，效果一致性高。    </p>
+</li>
+<li><p><strong>占用包体积小</strong><br>Lottie配置文件由Json文本串构成，相对于图片，占用体积更小。</p>
+</li>
+<li><p><strong>动画效果不失真</strong><br>传统图片拉伸或压缩导致失真，而Lottie为矢量图展示，不会出现失真情况。</p>
+</li>
+<li><p><strong>动画效果可以云端控制</strong><br>由于Lottie动画基于Json文件或文本解析，因此可以实现云端下发，实现动态加载，动态控制动画样式。</p>
+</li>
+</ul>
+<h2 id="四、如何使用-Lottie？"><a href="#四、如何使用-Lottie？" class="headerlink" title="四、如何使用 Lottie？"></a>四、如何使用 Lottie？</h2><p>Lottie 仅支持用 Gradle 构建配置，最低支持安卓版本 16。     </p>
+<h3 id="1-添加依赖到-build-gradle"><a href="#1-添加依赖到-build-gradle" class="headerlink" title="1. 添加依赖到 build.gradle"></a>1. 添加依赖到 build.gradle</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">    implementation <span class="string">'com.airbnb.android:lottie:2.5.4'</span></div><div class="line">&#125;</div><div class="line">或</div><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">    implementation <span class="string">"com.airbnb.android:lottie:$&#123;全局版本变量&#125;"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-添加-Adobe-After-Effects-导出的动画-Json-文件"><a href="#2-添加-Adobe-After-Effects-导出的动画-Json-文件" class="headerlink" title="2. 添加 Adobe After Effects 导出的动画 Json 文件"></a>2. 添加 Adobe After Effects 导出的动画 Json 文件</h3><p>通常由视觉工程师确认动效后通过AE导出, 我们只需将该Json文件保存至 /raw 或 /assets文件夹下。  </p>
+<h3 id="3-XML中嵌入基本布局"><a href="#3-XML中嵌入基本布局" class="headerlink" title="3. XML中嵌入基本布局"></a>3. XML中嵌入基本布局</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">com.airbnb.lottie.LottieAnimationView</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/animation_view"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>/&gt;</div></pre></td></tr></table></figure>
+<h3 id="4-加载播放动画，两类方式可选"><a href="#4-加载播放动画，两类方式可选" class="headerlink" title="4. 加载播放动画，两类方式可选"></a>4. 加载播放动画，两类方式可选</h3><h4 id="①-XML中静态配置-举例"><a href="#①-XML中静态配置-举例" class="headerlink" title="① XML中静态配置, 举例:"></a>① XML中静态配置, 举例:</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">com.airbnb.lottie.LottieAnimationView</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/animation_view"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">       </div><div class="line">    //加载方式如下<span class="attr">2</span>种任选其一</div><div class="line">    <span class="attr">app:lottie_rawRes</span>=<span class="string">"@raw/hello_world"</span></div><div class="line">    <span class="attr">app:lottie_fileName</span>=<span class="string">"hello_world.json"</span></div><div class="line">	</div><div class="line">    //循环播放</div><div class="line">    <span class="attr">app:lottie_loop</span>=<span class="string">"true"</span></div><div class="line">    //加载完毕后自动播放</div><div class="line">    <span class="attr">app:lottie_autoPlay</span>=<span class="string">"true"</span> /&gt;</div></pre></td></tr></table></figure>
+<h4 id="②-代码动态配置-举例"><a href="#②-代码动态配置-举例" class="headerlink" title="② 代码动态配置, 举例:"></a>② 代码动态配置, 举例:</h4><p><em>如下代码会在后台异步加载动画文件，并在加载完成后开始渲染动画。</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">LottieAnimationView animationView = ...;</div><div class="line">animationView.setAnimation(R.raw.hello_world);</div><div class="line">animationView.loop(<span class="keyword">true</span>);</div><div class="line">animationView.playAnimation();</div></pre></td></tr></table></figure>
+<h2 id="五、其他拓展使用"><a href="#五、其他拓展使用" class="headerlink" title="五、其他拓展使用"></a>五、其他拓展使用</h2><h3 id="1-直接解析Json文本串加载动画"><a href="#1-直接解析Json文本串加载动画" class="headerlink" title="1. 直接解析Json文本串加载动画"></a>1. 直接解析Json文本串加载动画</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">JsonReader jsonReader = <span class="keyword">new</span> JsonReader(<span class="keyword">new</span> StringReader(jsonStr));</div><div class="line">lottieView.setAnimation(jsonReader);</div><div class="line">lottieView.playAnimation();</div><div class="line">或</div><div class="line">Cancellable cancellable = LottieComposition.Factory.fromJsonString(jsonStr, composition -&gt; &#123;</div><div class="line">            lottieView.setComposition(composition);</div><div class="line">            lottieView.playAnimation();</div><div class="line">        &#125;);</div><div class="line"><span class="comment">//必要时取消进行中的异步操作</span></div><div class="line">cancellable.cancel();</div></pre></td></tr></table></figure>
+<h3 id="2-配合网络下载，实现下载Json配置并动态加载"><a href="#2-配合网络下载，实现下载Json配置并动态加载" class="headerlink" title="2. 配合网络下载，实现下载Json配置并动态加载"></a>2. 配合网络下载，实现下载Json配置并动态加载</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Call&lt;ResponseBody&gt; call = RetrofitComponent.fetchLottieConfig();<span class="comment">//伪代码</span></div><div class="line">call.enqueue(<span class="keyword">new</span> Callback&lt;ResponseBody&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call&lt;ResponseBody&gt; call, Response&lt;ResponseBody&gt; response)</span> </span>&#123;</div><div class="line">                <span class="comment">//String json = response.body().string();</span></div><div class="line">                <span class="comment">//交由Lottie处理...</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Call&lt;ResponseBody&gt; call, Throwable t)</span> </span>&#123;</div><div class="line">                <span class="comment">//do something.</span></div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
+<h3 id="3-动画加载监听器"><a href="#3-动画加载监听器" class="headerlink" title="3. 动画加载监听器"></a>3. 动画加载监听器</h3><p>根据业务需要进行动画过程监听:    </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">animationView.addAnimatorUpdateListener((animation) -&gt; &#123;</div><div class="line">    	<span class="comment">// do something.</span></div><div class="line">&#125;);</div><div class="line">animationView.playAnimation();</div><div class="line">...</div><div class="line"><span class="keyword">if</span> (animationView.isAnimating()) &#123;</div><div class="line">	<span class="comment">// do something.</span></div><div class="line">&#125;</div><div class="line">...</div><div class="line">animationView.setProgress(<span class="number">0.5f</span>);</div><div class="line">...</div></pre></td></tr></table></figure>
+<h3 id="4-LottieDrawable-的使用"><a href="#4-LottieDrawable-的使用" class="headerlink" title="4. LottieDrawable 的使用"></a>4. LottieDrawable 的使用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">LottieDrawable drawable = <span class="keyword">new</span> LottieDrawable();</div><div class="line">LottieComposition.Factory.fromAssetFileName(getApplicationContext(), <span class="string">"lottie_pin_jump.json"</span>, composition -&gt; &#123;</div><div class="line">            drawable.setComposition(composition);</div><div class="line">            <span class="comment">//目前显示为静态图</span></div><div class="line">            ivLottie.setImageDrawable(drawable);</div><div class="line">            <span class="comment">//调用start()开始播放动画</span></div><div class="line">            drawable.start();</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
+<h3 id="5-更多使用可参考文末官方链接"><a href="#5-更多使用可参考文末官方链接" class="headerlink" title="5. 更多使用可参考文末官方链接"></a>5. 更多使用可参考文末官方链接</h3><h2 id="六、需要考虑的问题"><a href="#六、需要考虑的问题" class="headerlink" title="六、需要考虑的问题"></a>六、需要考虑的问题</h2><ol>
+<li>由于是依赖于AE做的动画，估计以后不只是要求视觉设计师精通AE，连前端开发都需要了解AE  </li>
+<li>Lottie 对 Json 文件的支持待完善，目前存在部分AE导出成 Json 文件无法渲染或渲染不佳</li>
+<li>支持的功能存在限制，可参考 <a href="http://airbnb.io/lottie/supported-features.html" target="_blank" rel="external">功能支持列表</a>。</li>
+</ol>
+<h2 id="七、总结"><a href="#七、总结" class="headerlink" title="七、总结"></a>七、总结</h2><p>尽管Lottie还存在诸多小问题，但它所带来的效率提升绝对是传统开发方式无法比拟的。我们要做的是正确善用它。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://airbnb.io/lottie/android/android.html" target="_blank" rel="external">官网网址</a><br><a href="https://github.com/airbnb/lottie-android" target="_blank" rel="external">Github地址</a><br><a href="https://github.com/airbnb/lottie-android/tree/master/LottieSample/src/main/assets" target="_blank" rel="external">测试用Json文件</a><br><a href="https://github.com/bigxixi/lottie-android" target="_blank" rel="external">项目中文翻译版 (略有差异)</a>  </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文主要介绍动画开源库 Lottie 在 Android 中的使用。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="w.p" scheme="http://xgfe.github.io/categories/w-p/"/>
+    
+    
+      <category term="Android" scheme="http://xgfe.github.io/tags/Android/"/>
+    
+      <category term="animation" scheme="http://xgfe.github.io/tags/animation/"/>
+    
+      <category term="lottie" scheme="http://xgfe.github.io/tags/lottie/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>实现React国际化</title>
+    <link href="http://xgfe.github.io/2018/04/26/jiangxiang/internationalize-your-react-project/"/>
+    <id>http://xgfe.github.io/2018/04/26/jiangxiang/internationalize-your-react-project/</id>
+    <published>2018-04-26T07:00:00.000Z</published>
+    <updated>2018-05-29T03:15:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<p> React 最早由 Facebook 的软件工程师 Jordan Walke 创建，它在 2011 年首次部署在 Facebook 的新闻源中，由于其性能优势明显，很快获得了广泛关注和大规模的使用，如今发展已经非常成熟。<br>基于 React 的渲染原理可以实现很多有意思的功能，例如实现一个 React 的国际化工具。(React v16.3)</p>
+<a id="more"></a>
+<h2 id="一、现状"><a href="#一、现状" class="headerlink" title="一、现状"></a>一、现状</h2><h3 id="1-1-目前-React-国际化常用的解决方案："><a href="#1-1-目前-React-国际化常用的解决方案：" class="headerlink" title="1.1 目前 React 国际化常用的解决方案："></a>1.1 目前 React 国际化常用的解决方案：</h3><ol>
+<li>打包时翻译</li>
+<li>动态翻译</li>
+<li>生成多个版本</li>
+</ol>
+<p>比较流行的为 webpack 团队基于打包时翻译的 webpack-i18n-plugin 和 yahoo 团队基于动态翻译的 React-intl</p>
+<h3 id="1-2-对比"><a href="#1-2-对比" class="headerlink" title="1.2 对比"></a>1.2 对比</h3><ol>
+<li>打包时翻译<br>优点：方案比较成熟，已有成功案例（如很多资讯网站、博客，如 mdn ）<br>缺点：翻译表一旦更新，需要重新打包发布，本地要维护大量的翻译表文件，过于繁琐</li>
+<li>动态翻译<br>优点：灵活，翻译表放进 cdn 一句 sql 可以更新，可操作性强<br>缺点：兼容性有待考察，对于不同的项目结构要设置特有的配置</li>
+<li>多版本<br>优点：产生的打包文件最小，无需配置<br>缺点：修改过程复杂，应用场景不广泛</li>
+</ol>
+<h2 id="二、大概的设想"><a href="#二、大概的设想" class="headerlink" title="二、大概的设想"></a>二、大概的设想</h2><h3 id="3-1-翻译语法"><a href="#3-1-翻译语法" class="headerlink" title="3.1 翻译语法"></a>3.1 翻译语法</h3><p>语法分为批量翻译或指定单句不翻译<br>具体通过<code>&lt;Provider/&gt;</code>类以及属性 no-translate 实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 批量翻译</div><div class="line">&lt;Provider value=&#123;&#123;</div><div class="line">    languageMap, // 语言包</div><div class="line">    language, // 语言类型</div><div class="line">&#125;&#125;&gt;</div><div class="line">    ... (要翻译的代码块)</div><div class="line">&lt;/Provider&gt;</div><div class="line">// 指定不翻译</div><div class="line">&lt;div no-translate&gt;...(不翻译的字符串)&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="3-2-方便获取在线的语言包"><a href="#3-2-方便获取在线的语言包" class="headerlink" title="3.2 方便获取在线的语言包"></a>3.2 方便获取在线的语言包</h3><p>可以通过请求获得在线语言包，在下载完成后进行更新</p>
+<h2 id="三、核心思路"><a href="#三、核心思路" class="headerlink" title="三、核心思路"></a>三、核心思路</h2><p>实现多语言通俗来说就是：</p>
+<ol>
+<li>先找到要翻译的文字</li>
+<li>请求在线语言包</li>
+<li>再对要翻译的文字进行翻译</li>
+</ol>
+<p>基于以上基本思路再思考，我们都知道， JSX 是 react 的语法糖，而使用高阶函数<code>React.createElement</code>可以重新定义组件的渲染，我们只需要将要翻译的文字在该方法中处理即可。</p>
+<p>以下两种写法经 babel 转义，本质上没有区别！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">class Hello extends React.Component &#123;</div><div class="line">  render() &#123;</div><div class="line">    return React.createElement(&apos;div&apos;, null, `Hello $&#123;this.props.toWhat&#125;`);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">ReactDOM.render(</div><div class="line">  React.createElement(Hello, &#123;toWhat: &apos;World&apos;&#125;, null),</div><div class="line">  document.getElementById(&apos;root&apos;)</div><div class="line">);</div></pre></td></tr></table></figure>
+<ul>
+<li>基于这个想法，通过设置 no-translate 属性，<code>&lt;Provider/&gt;</code>，并在<code>createElement</code>中判断，就知道哪里的文字需要翻译，也知道要翻译成哪种语言了（第一步）！</li>
+<li>(第二步比较简单，暂时忽略…)</li>
+<li>再定义一个<code>translate</code>函数，接受文字，语言包和翻译表，返回翻译后的文字（第三步）</li>
+</ul>
+<p>下面的流程图展示了整体的思路：</p>
+<p><img src="http://vfile.meituan.net/xgfe/2f1f2dac01553645441f63da880b712937156.png" alt=""></p>
+<h2 id="四、实现"><a href="#四、实现" class="headerlink" title="四、实现"></a>四、实现</h2><p>毕竟是要做一个工具库，首先新建一个工程，在 core 文件目录下创建具体文件</p>
+<h3 id="4-1-定义一个-languageMap"><a href="#4-1-定义一个-languageMap" class="headerlink" title="4.1 定义一个 languageMap"></a>4.1 定义一个 languageMap</h3><p> languageMap 一定得是单例模式，方便全局调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// file: ./core/languageMap.js</div><div class="line">const translateMap = &#123;&#125;;</div><div class="line">export default translateMap;</div></pre></td></tr></table></figure></p>
+<h3 id="4-2-再写一个translate函数"><a href="#4-2-再写一个translate函数" class="headerlink" title="4.2 再写一个translate函数"></a>4.2 再写一个translate函数</h3><p>任何需要翻译的地方，都将会使用这个<code>translate</code>函数，它接受三个参数：</p>
+<ul>
+<li>content：要翻译的文字</li>
+<li>languageMap：语言包</li>
+<li>language：语言类型</li>
+</ul>
+<p>设置 middleware 作为中间件，可以操作翻译前后的字段，可以解决一些兼容性问题，或者实现一些彩蛋的效果…</p>
+<p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">// file: ./core/translate.js</div><div class="line">const middleware = &#123;</div><div class="line">  merge: function(obj) &#123;</div><div class="line">    Object.keys(obj).forEach(function(key) &#123;</div><div class="line">      if (key !== &quot;merge&quot;) &#123;</div><div class="line">        middleware[key] = obj[key];</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">const translate = (content, languageMap, language) =&gt; &#123;</div><div class="line">  if (!content) &#123;</div><div class="line">    return &quot;&quot;;</div><div class="line">  &#125;</div><div class="line">  if (!language) &#123;</div><div class="line">    throw new Error(&quot;you should define specific language type!&quot;);</div><div class="line">  &#125;</div><div class="line">  // beforeRender middleware</div><div class="line">  if (middleware.beforeRender) content = middleware.beforeRender(content);</div><div class="line">  // translate words</div><div class="line">  if (language &amp;&amp; languageMap &amp;&amp; languageMap[language]) &#123;</div><div class="line">    languageMap[language][content] &amp;&amp;</div><div class="line">      (content = languageMap[language][content]);</div><div class="line">  &#125;</div><div class="line">  // afterRender middleware</div><div class="line">  if (middleware.afterRender) content = middleware.afterRender(content);</div><div class="line">  return content;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h3 id="4-3-再创建-translateClass"><a href="#4-3-再创建-translateClass" class="headerlink" title="4.3 再创建 translateClass"></a>4.3 再创建 translateClass</h3><p>为了使用Context API，我们需要一个辅助类来接受<code>&lt;Provider/&gt;</code>传过来的 languageMap 和 language 等字段</p>
+<p>先创建一个./core/context.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export const &#123; Provider, Consumer &#125; = React.createContext();</div></pre></td></tr></table></figure></p>
+<p>在创建一个./core/translateClass<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">// file: ./core/translateClass.jsx</div><div class="line">import React from &quot;react&quot;;</div><div class="line">import &#123; translate &#125; from &quot;./translate&quot;;</div><div class="line">import &#123; Consumer &#125; from &quot;./context&quot;;</div><div class="line"></div><div class="line">class Translate extends React.Component &#123;</div><div class="line">  render() &#123;</div><div class="line">    const noTranslate = this.props[&quot;no-translate&quot;];</div><div class="line">    return (</div><div class="line">      &lt;Consumer&gt;</div><div class="line">        &#123;context =&gt;</div><div class="line">          noTranslate</div><div class="line">            ? this.props.children</div><div class="line">            : translate(</div><div class="line">                this.props.children,</div><div class="line">                context.languageMap,</div><div class="line">                context.language</div><div class="line">              )</div><div class="line">        &#125;</div><div class="line">      &lt;/Consumer&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default Translate;</div></pre></td></tr></table></figure></p>
+<h3 id="4-4-改写-createElement"><a href="#4-4-改写-createElement" class="headerlink" title="4.4 改写 createElement"></a>4.4 改写 createElement</h3><p>有了之前的铺垫，可以很快的实现我们自己的<code>createElement</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">// file: ./core/translateTag.jsx</div><div class="line">import React, &#123; Component &#125; from &quot;react&quot;;</div><div class="line">import Translate from &quot;./translateClass&quot;;</div><div class="line"></div><div class="line">const createElement = React.createElement;</div><div class="line"></div><div class="line">React.createElement = (...args) =&gt; &#123;</div><div class="line">  let children = args.slice(2);</div><div class="line"></div><div class="line">  // ① console.log(args)</div><div class="line">  children = children.map(child =&gt; &#123;</div><div class="line">    if (typeof args[0] === &quot;string&quot; &amp;&amp; typeof child === &quot;string&quot;) &#123;</div><div class="line">      if (args[1] &amp;&amp; args[1][&quot;no-translate&quot;]) &#123;</div><div class="line">        return &lt;Translate no-translate&gt;&#123;child&#125;&lt;/Translate&gt;;</div><div class="line">      &#125; else &#123;</div><div class="line">        return &lt;Translate&gt;&#123;child&#125;&lt;/Translate&gt;;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    return child;</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  return createElement(args[0], args[1], ...children);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>在标志①处打印 args 可以看到 ReactDom 的结构，它包含了$$typeof,props,ref,children等属性， $$typeof 代表组件类型， props 是属性， children 是子节点的若干元素，将其 children 获取到，进行如下判断：</p>
+<ol>
+<li>如果类型是 Object 就不做任何操作</li>
+<li>如果 child 类型是字符串就进行翻译</li>
+<li>如带有 no-translate 属性将不对其进行翻译</li>
+</ol>
+<p>通过改变<code>&lt;Provider/&gt;</code>的位置，可以设置不同区块的 context ，这样可以改变不同区块的翻译表和语言类型</p>
+<p>到这里， translate 工具类基本完成</p>
+<h2 id="五、进行测试"><a href="#五、进行测试" class="headerlink" title="五、进行测试"></a>五、进行测试</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">import React, &#123; Component &#125; from &quot;react&quot;;</div><div class="line">import ReactDom from &quot;react-dom&quot;;</div><div class="line">import languageMap from &quot;./core/languageMap&quot;;</div><div class="line">import &#123; translate, middleware &#125; from &quot;./core/translate&quot;;</div><div class="line">import &#123; Provider &#125; from &quot;./core/context&quot;;</div><div class="line">// 全局更新createElement</div><div class="line">import &quot;./core/translateTag.jsx&quot;;</div><div class="line"></div><div class="line">const styles = &#123;</div><div class="line">  fontFamily: &quot;sans-serif&quot;,</div><div class="line">  textAlign: &quot;center&quot;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">class App extends Component &#123;</div><div class="line">  constructor(...args) &#123;</div><div class="line">    super(...args);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillMount() &#123;</div><div class="line">    this.fetchTranslateList();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  fetchTranslateList() &#123;</div><div class="line">    languageMap[&quot;en&quot;] = &#123;</div><div class="line">      你好: &quot;Hello&quot;,</div><div class="line">      国际化: &quot;intl&quot;</div><div class="line">    &#125;;</div><div class="line">    languageMap[&quot;france&quot;] = &#123;</div><div class="line">      你好: &quot;Bonjour&quot;,</div><div class="line">      国际化: &quot;intl&quot;</div><div class="line">    &#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    const enConfig = &#123; language: &quot;en&quot;, languageMap &#125;;</div><div class="line">    const franceConfig = &#123; language: &quot;france&quot;, languageMap &#125;;</div><div class="line">    return (</div><div class="line">      &lt;div style=&#123;styles&#125;&gt;</div><div class="line">        &lt;Provider value=&#123;enConfig&#125;&gt;</div><div class="line">          &lt;div&gt;</div><div class="line">            &lt;h1&gt;你好&lt;/h1&gt;</div><div class="line">            &lt;span&gt;</div><div class="line">              你好</div><div class="line">              &lt;Provider value=&#123;franceConfig&#125;&gt;</div><div class="line">                &lt;h1 no-translate&gt;</div><div class="line">                  你好</div><div class="line">                  &lt;div&gt;国际化&lt;/div&gt;</div><div class="line">                &lt;/h1&gt;</div><div class="line">                &lt;span&gt;国际化&lt;/span&gt;</div><div class="line">              &lt;/Provider&gt;</div><div class="line">            &lt;/span&gt;</div><div class="line">          &lt;/div&gt;</div><div class="line">        &lt;/Provider&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">ReactDom.render(</div><div class="line">  &lt;App /&gt;,</div><div class="line">  document.body.appendChild(document.createElement(&quot;div&quot;))</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>以上代码，我们创建了一个入口文件，分别将中文翻译成了英文和法文，最终运行正常！</p>
+<h2 id="六、兼容性"><a href="#六、兼容性" class="headerlink" title="六、兼容性"></a>六、兼容性</h2><p>写这个工具的初衷当然是无缝兼容各种 react 项目，但事实上并不简单<br>举例来说，目前出现的很多的前端组件库与这个工具有很多兼容性冲突，这些库主要有：</p>
+<ol>
+<li>ant-design/ant-mobile（蚂蚁金服团队的前端UI组件库，链接：<a href="https://ant.design/index-cn）" target="_blank" rel="external">https://ant.design/index-cn）</a></li>
+<li>element-react（饿了么团队的前端UI组件库react版本，链接：<a href="https://eleme.github.io/element-react/）" target="_blank" rel="external">https://eleme.github.io/element-react/）</a></li>
+</ol>
+<p>实际操作中发现了不兼容的问题很多，想必要做到开箱即用是不可能了~~~<br>寄希望于无缝兼容，不如提供中间件接口来让使用者自行配置 o(╥﹏╥)o</p>
+<h3 id="6-1-ant-design"><a href="#6-1-ant-design" class="headerlink" title="6.1 ant-design"></a>6.1 ant-design</h3><p>例如，在 ant-design 组件库中，<code>&lt;input/&gt;</code>的 placeholder 属性，如不进行检测，将不会被翻译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">import &#123;filter&#125; from &apos;./core/translate.js&apos;;</div><div class="line"></div><div class="line">filter.forAntDesign = (props,language) =&gt; &#123;</div><div class="line">    let props = Object.assign(&#123;&#125;, props);</div><div class="line">            if (language &amp;&amp; props.placeholder) &#123;</div><div class="line">                if (languageMap[language]) &#123;</div><div class="line">                    if (/[^\u4e00-\u9fa5]/g.test(props.placeholder)) &#123;</div><div class="line">                        props.placeholder = props.placeholder.replace(/([\u4e00-\u9fa5]+)/g, (match) =&gt; &#123;</div><div class="line">                            return languageMap[language][match] ? languageMap[language][match] : match</div><div class="line">                        &#125;)</div><div class="line">                    &#125; else &#123;</div><div class="line">                        languageMap[language][props.placeholder] &amp;&amp; (props.placeholder = languageMap[language][props.placeholder]);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            return &lt;input</div><div class="line">                &#123;...props&#125;</div><div class="line">                ref=&quot;input&quot;</div><div class="line">                onInput=&#123;e =&gt; &#123;this.value = e.target.value; this.props.onInput &amp;&amp; this.props.onInput(e);&#125;&#125;&gt;</div><div class="line">                &#123;this.props.children&#125;</div><div class="line">            &lt;/input&gt;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过如上对 placeholder 的过滤操作，可以实现 ant-design 输入框的多语言翻译。<br>再如，<code>&lt;Select/&gt;</code>组件，它约定元素 option 的属性 value 强等于内容 children 时才认为当前选项是被选中，解决办法这里不再赘述，它们都可以通过增加中间件，修改<code>props.children</code>的过滤机制进而解决！</p>
+<h3 id="6-2-其他react组件库"><a href="#6-2-其他react组件库" class="headerlink" title="6.2 其他react组件库"></a>6.2 其他react组件库</h3><p>也有一些框架或者自行编写的组件，如 element-react ，一些 dom 文字并不会放在 text 中，更确切地说其组件内部进行了重构，并不会将文字简单的向外展示，这就需要额外的编写特殊的 filter 了</p>
+<h2 id="七、总结"><a href="#七、总结" class="headerlink" title="七、总结"></a>七、总结</h2><p>到这里，我们的 React 国际化工具已经实现了，这里是一个简单的在线 demo</p>
+<iframe src="https://codesandbox.io/embed/64zx97v9qr" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<ul>
+<li>完整代码参考 github: <a href="https://github.com/ranrantu/react-i18" target="_blank" rel="external">https://github.com/ranrantu/react-i18</a></li>
+</ul>
+<p>总之，这可以说是 React 动态翻译的一种思路，这种实现至今还是有不足的地方，还请各位拍砖指正，感谢！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt; React 最早由 Facebook 的软件工程师 Jordan Walke 创建，它在 2011 年首次部署在 Facebook 的新闻源中，由于其性能优势明显，很快获得了广泛关注和大规模的使用，如今发展已经非常成熟。&lt;br&gt;基于 React 的渲染原理可以实现很多有意思的功能，例如实现一个 React 的国际化工具。(React v16.3)&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="jiangxiang" scheme="http://xgfe.github.io/categories/jiangxiang/"/>
+    
+    
+      <category term="React" scheme="http://xgfe.github.io/tags/React/"/>
+    
+      <category term="国际化" scheme="http://xgfe.github.io/tags/%E5%9B%BD%E9%99%85%E5%8C%96/"/>
+    
+  </entry>
   
   <entry>
     <title>web前端性能优化</title>
@@ -892,8 +1076,8 @@ if (spaceAbove &lt; absIncrementalDeltaY || spaceBelow &lt; absIncrementalDeltaY
     <title>Less Vs Sass</title>
     <link href="http://xgfe.github.io/2018/01/26/zhoushiqi/Less-VS-Sass/"/>
     <id>http://xgfe.github.io/2018/01/26/zhoushiqi/Less-VS-Sass/</id>
-    <published>2018-01-26T04:00:21.000Z</published>
-    <updated>2018-04-25T07:49:50.000Z</updated>
+    <published>2018-01-25T16:00:00.000Z</published>
+    <updated>2018-05-29T03:15:12.000Z</updated>
     
     <content type="html"><![CDATA[<p>通过一些对Less 和 Sass 的研究和学习，逐渐发现了它们一些共同特征（混入、参数混入、嵌套规则、运算、颜色功能、名字空间、作用域、JavaScript 赋值）和 不同之处，这里主要总结一些 Less 和 Sass <strong>用法不同之处</strong>。</p>
 <a id="more"></a>
@@ -969,7 +1153,7 @@ if (spaceAbove &lt; absIncrementalDeltaY || spaceBelow &lt; absIncrementalDeltaY
 <li>在 compass 新建的项目目录下，新建 images 文件夹。 在 images 文件夹中新建一个文件夹用于放置要合成的图片。 在项目的 Sass 文件夹下新建一个文件。就能看到在 images 文件夹中生成了一个<em><strong>雪碧图</strong></em>。</li>
 </ul>
 </li>
-<li><strong>SCUT</strong>。SCUT 是提供给前端开发者的 Sass 工具集，能帮助提高对一般样式代码模式的执（implementations of common style-code patterns）。Scut 工具集可以帮助用户避免重复写代码，扩大代码的可重用性。Scut 工具集可以处理模式（patterns）遇到的下列问题：pattern 是不直观的。pattern 需要简写 pattern 涉及到一些重要的最佳实践 pattern 是极为常见的，（至少）有点讨厌。Scut 工具集的目标是实现可重用性的最大化（maximizies reusabilit）。</li>
+<li><strong>SCUT</strong>。SCUT 是提供给前端开发者的 Sass 工具集，能帮助提高对一般样式代码模式的执行（implementations of common style-code patterns）。Scut 工具集可以帮助用户避免重复写代码，扩大代码的可重用性。Scut 工具集可以处理模式（patterns）遇到的下列问题：pattern 是不直观的。pattern 需要简写 pattern 涉及到一些重要的最佳实践 pattern 是极为常见的，（至少）有点讨厌。Scut 工具集的目标是实现可重用性的最大化（maximizies reusabilit）。</li>
 <li><strong>Koala</strong>。Sass 和 Less 不一样，需要在本地编译成 CSS 才能看到效果，所以有一个很强大的<em><strong>编译工具</strong></em>才是重中之重。如果你不会安装 ruby ，更是没听过它;如果你安装了 Ruby，但是不会用它，那么就果断用 Koala 吧。<ul>
 <li>特点：<ul>
 <li>1、多语言支持     </li>
@@ -1020,7 +1204,7 @@ if (spaceAbove &lt; absIncrementalDeltaY || spaceBelow &lt; absIncrementalDeltaY
 
 <h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><ul>
 <li>Less ：并没有输出设置</li>
-<li>Sass ：提供4中输出选项：nested，compact，compressed 和 expanded</li>
+<li>Sass ：提供4种输出选项：nested，compact，compressed 和 expanded</li>
 </ul>
 <h3 id="Mixins-混合宏"><a href="#Mixins-混合宏" class="headerlink" title="Mixins (混合宏)"></a>Mixins (混合宏)</h3><ul>
 <li>Less ：支持带参数的混合以及有默认参数值的混合</li>
@@ -1052,7 +1236,7 @@ if (spaceAbove &lt; absIncrementalDeltaY || spaceBelow &lt; absIncrementalDeltaY
 
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="开发中如何选择使用Less还是Sass"><a href="#开发中如何选择使用Less还是Sass" class="headerlink" title="开发中如何选择使用Less还是Sass?"></a>开发中如何选择使用Less还是Sass?</h3><ul>
 <li><strong>相同点</strong>：两者都是 CSS 预处理器，都具有相同的功能，可以帮助我们快速编译代码，帮助我们更好的维护我们的样式代码或者说维护项目吧。</li>
-<li><strong>不同点</strong>：Less 相对清晰明了，易于上手，对编译环境要求比较宽松。Sass 的功能比 Less 强大，是下一个层次的选择，适合稍微有经验的前端开发者的工具。</li>
+<li><strong>不同点</strong>：Less 相对清晰明了，易于上手，对编译环境要求比较宽松。Sass 的功能比 Less 强大，是下一个层次的选择，适合稍微有经验的前端开发者。</li>
 <li>根据业务线需求、组内成员情况，进行约定。</li>
 <li>按需使用，随习惯所为！</li>
 </ul>
@@ -1076,6 +1260,314 @@ if (spaceAbove &lt; absIncrementalDeltaY || spaceBelow &lt; absIncrementalDeltaY
       <category term="Less" scheme="http://xgfe.github.io/tags/Less/"/>
     
       <category term="Sass" scheme="http://xgfe.github.io/tags/Sass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Web 端屏幕适配方案</title>
+    <link href="http://xgfe.github.io/2018/01/26/zhoushiqi/Web%E7%AB%AF%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88/"/>
+    <id>http://xgfe.github.io/2018/01/26/zhoushiqi/Web端屏幕适配方案/</id>
+    <published>2018-01-25T16:00:00.000Z</published>
+    <updated>2018-05-29T03:15:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>通过对现有 Web 端屏幕适配方案的总结，引起对更好的 Web 端屏幕适配方案的调研。在调研中发现了现实中出现的 Web 端移动端适配相关问题，并推荐相应解决方案，和屏幕适配方案。</p>
+<a id="more"></a>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="像素相关"><a href="#像素相关" class="headerlink" title="像素相关"></a>像素相关</h3><ol>
+<li><strong>像素</strong> ：像素是屏幕显示最小的单位。</li>
+<li><strong>设备像素</strong> ：设备像素又称物理像素（physical pixel），设备能控制显示的最小单位，我们可以把这些像素看作成显示器上一个个的点。 iPhone5 的物理像素是 640 X 1136 。</li>
+<li><strong>逻辑像素</strong>（logical pixel）：独立于设备的用于逻辑上衡量像素的单位。CSS 像素就是逻辑像素，CSS 像素是 Web 编程的概念。</li>
+<li><strong>设备独立像素</strong>（density-independent pixel）：简称 dip ，单位 dp ，独立于设备的用于逻辑上衡量像素的单位 。且逻辑像素 ≈ 设备独立像素。</li>
+<li><strong>设置像素比</strong>（device pixel ratiodpr）：dpr = 物理像素 / 设备独立像素。可通过 window.devicePixelRatio 获取。所谓的一倍屏、二倍屏(Retina)、三倍屏，指的是设备以多少物理像素来显示一个 CSS 像素即：几 dpr。<br>普通 Android 是一倍屏，在 Retina 屏的 iPhone 上，devicePixelRatio 的值为 2，也就是说 1 个 CSS 像素相当于 2 个物理像素。通常所说的二倍屏（Retina）的 dpr 是 2， 三倍屏（IPhoneX 等）是 3 。</li>
+</ol>
+<h3 id="viewport-相关"><a href="#viewport-相关" class="headerlink" title="viewport 相关"></a>viewport 相关</h3><p><code>&lt;meta name=&quot;viewport&quot;   content=&quot;width=device-width, initial-scale=1,
+ maximum-scale=1, user-scalable=no&quot;&gt;</code></p>
+<ol>
+<li><strong>visual viewport 可见视口</strong> ：屏幕宽度window.innerWidth/Height</li>
+<li><strong>layout viewport 布局视口</strong> ：DOM宽document.documentElement.clientWidth/Height</li>
+<li><strong>ideal viewport 理想视口</strong> ：使布局视口就是可见视口</li>
+<li><strong>width=device-width</strong> ：表示宽度是设备屏幕的宽度</li>
+<li><strong>initial-scale</strong> ：表示初始的缩放比例</li>
+<li><strong>minimum-scale</strong> ：表示最小的缩放比例</li>
+<li><strong>maximum-scale</strong> ：表示最大的缩放比例</li>
+<li><strong>user-scalable</strong> ：表示用户是否可以调整缩放比例</li>
+</ol>
+<h2 id="总结现有方案优劣"><a href="#总结现有方案优劣" class="headerlink" title="总结现有方案优劣"></a>总结现有方案优劣</h2><p><strong>现有屏幕适配方案 ：</strong> </p>
+<ul>
+<li>设置 viewport 的 scale 值为 1</li>
+</ul>
+<p><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0&quot;&gt;</code></p>
+<ul>
+<li>根据屏幕的分辨率动态设置 html 的文字大小，达到等比缩放的功能</li>
+</ul>
+<p><code>375 屏幕为 20px，以此为基础计算出每一种宽度的字体大小</code></p>
+<ul>
+<li><p>Rem.less 中设置其他基础尺寸 @bps ：320px， 360px， 375px， 400px， 414px， 480px， 768px， 1024px<br>并计算相应的比例缩放：</p>
+<pre><code>.loop(@i: 1) when (@i &lt;= length(@bps)) {  //注意less数组是从1开始的
+  @bp: extract(@bps, @i);
+  @font: round(@bp/@baseWidth*@baseFont, 1);
+  @media only screen and (min-width: @bp){
+    html {
+      font-size: @font !important;
+    }
+  }
+  .loop((@i + 1));
+};
+</code></pre></li>
+<li><p>然后在 variables.less 中设置比例和行高： </p>
+</li>
+</ul>
+<p><code>@2ptr : 1/2/20rem @ptr : 1/20rem</code></p>
+<ul>
+<li>最后所有 CSS 使用 @2ptr 和 @ptr 利用 rem 缩放 dom 、字体</li>
+</ul>
+<h2 id="其他主流适配方案优劣"><a href="#其他主流适配方案优劣" class="headerlink" title="其他主流适配方案优劣"></a>其他主流适配方案优劣</h2><h3 id="方案："><a href="#方案：" class="headerlink" title="方案："></a>方案：</h3><h4 id="1-媒体查询-Media-Queries"><a href="#1-媒体查询-Media-Queries" class="headerlink" title="1. 媒体查询 Media Queries"></a>1. 媒体查询 Media Queries</h4><p><code>@media screen and (max-width: 300px){}</code></p>
+<ul>
+<li>优点：<ul>
+<li>Media Queries 可以做到设备像素比的判断，方法简单，成本低，特别是对移动和 PC 维护同一套代码的时候。目前像 Bootstrap 等框架使用这种方式布局</li>
+<li>图片便于修改，只需修改 CSS 文件</li>
+<li>调整屏幕宽度的时候不用刷新页面即可响应式展示</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>代码量比较大，维护不方便</li>
+<li>为了兼顾大屏幕或高清设备，会造成其他设备资源浪费，特别是加载图片资源</li>
+<li>为了兼顾移动端和PC端各自响应式的展示效果，难免会损失各自特有的交互方式</li>
+</ul>
+</li>
+</ul>
+<h5 id="浏览器兼容"><a href="#浏览器兼容" class="headerlink" title="浏览器兼容"></a>浏览器兼容</h5><ul>
+<li>不支持 IE 8.0 及以下、Safari 3.2 及以下、FireFox 3.0 及以下</li>
+<li><img width="600px" height="300px" src="https://ws1.sinaimg.cn/large/d0ba619egy1fqnv6ygswjj21ic0v0428.jpg"></li>
+</ul>
+<h4 id="2-Flex-弹性布局"><a href="#2-Flex-弹性布局" class="headerlink" title="2. Flex 弹性布局"></a>2. Flex 弹性布局</h4><ul>
+<li>固定 viewport 的高度等于设备高度，宽度自适应，元素都采用 px 做单位</li>
+</ul>
+<p><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;</code></p>
+<ul>
+<li>随着屏幕宽度变化，页面也会跟着变化，效果就和PC页面的流体布局差不多，在哪个宽度需要调整的时候使用响应式布局调调就行（比如网易新闻）</li>
+</ul>
+<p><img width="600px" height="300px" src="https://ws1.sinaimg.cn/large/d0ba619egy1fqj1u1yzs5j20oa0e6taz.jpg"></p>
+<ul>
+<li>优点：布局更加精简，直接用 CSS 的方式，你不用再引入 Bootstrap ，使用栅格系统</li>
+<li>缺点：IE10 及 IE10 以上才支持，所以目前主要应用在移动端上</li>
+</ul>
+<h5 id="浏览器支持"><a href="#浏览器支持" class="headerlink" title="浏览器支持"></a>浏览器支持</h5><ul>
+<li>不支持 IE 9.0 及以下、Opera 11.5 及以下、Opera Mobile 12及以下</li>
+<li><img width="800px" height="200px" src="https://ws1.sinaimg.cn/large/d0ba619egy1fqnvqmc091j21hi0f2q4y.jpg"></li>
+</ul>
+<h4 id="3-rem-viewport"><a href="#3-rem-viewport" class="headerlink" title="3. rem + viewport"></a>3. rem + viewport</h4><ul>
+<li>根据屏幕宽度设定 rem 值，需要适配的元素都使用 rem 为单位，不需要适配的元素还是使用 px 为单位</li>
+<li><p>根据 rem 将页面放大 dpr 倍， 然后 viewport 设置为 1 / dpr</p>
+<p>   <em>如 iPhone6 plus 的 dpr 为 3， 则页面整体放大 3 倍， 1px (css单位)在plus下默认为 3px (物理像素)</em></p>
+</li>
+<li><p>然后 viewport 设置为 1/3， 这样页面整体缩回原始大小，从而实现高清。这样整个网页在设备内显示时的页面宽度就会等于设备逻辑像素大小，也就是 device-width 。这个 device-width 的计算公式为：<br>设备的物理分辨率 / (devicePixelRatio * scale)，在 scale 为 1 的情况下，device-width = 设备的物理分辨率 / devicePixelRatio </p>
+</li>
+</ul>
+<h5 id="rem弊端"><a href="#rem弊端" class="headerlink" title="rem弊端"></a>rem弊端</h5><p>&nbsp;&nbsp;&nbsp;&nbsp;iOS 与 Android 平台的适配方式背后隐藏的设计哲学是这样的：阅读文字时，可读性较好的文字字号行距等绝对尺寸数值组合与文字所在媒介的绝对尺寸关系不大。（可以这样简单理解：A4 大小的报纸和 A3 大小甚至更大的报纸，舒适的阅读字号绝对尺寸是一样的，因为他们都需要拿在手里阅读，在手机也是上同理）。在看图片视频时，图片、视频的比例应该是固定的，不应该出现拉伸变形的情况。而 rem 用在字号时，使字号在不同屏幕上的绝对尺寸不一致，违背了设计哲学。</p>
+<h5 id="浏览器兼容-1"><a href="#浏览器兼容-1" class="headerlink" title="浏览器兼容"></a>浏览器兼容</h5><ul>
+<li>不支持 IE 8.0 以下 、Safari 4.0 以下、FireFox 3.5以下</li>
+<li><img width="800px" height="200px" src="https://ws1.sinaimg.cn/large/d0ba619egy1fqnvyg6do9j21he0f4ac2.jpg"></li>
+</ul>
+<h4 id="4-VW适配"><a href="#4-VW适配" class="headerlink" title="4. VW适配"></a>4. VW适配</h4><p><a href="https://juejin.im/entry/5aa09c3351882555602077ca" target="_blank" rel="external">如何在Vue项目中使用vw实现移动端适配</a></p>
+<pre><code>1vw ＝ 1/100th viewport width
+1vh ＝ 1/100th viewport height
+vmin ：选取 vw 和 vh 中最小的那个
+vmax ：选取 vw 和 vh 中最大的那个 
+</code></pre><p><strong>vw 可以轻松搞定弹性布局，流体布局。vw 逻辑非常清晰</strong>其实 vw 的方案的写法和 flexible 方案的写法一致<br>～～因为 flexible 其实就是用 hack 的手段模拟了 vw 的实现而已。<br>具体写法：针对 750px 的设计稿，将相应的 px 值除以 75 就是 vw 的值。</p>
+<p>使用 vw 来实现页面的适配，并且通过 PostCSS 的插件 <a href="https://github.com/evrone/postcss-px-to-viewport" target="_blank" rel="external">postcss-px-to-viewport</a> 把 px 转换成 vw 。这样的好处是，我们在撸码的时候，不需要进行任何的计算，你只需要根据设计图写 px 单位。<a href="https://github.com/evrone/postcss-px-to-viewport" target="_blank" rel="external">postcss-px-to-viewport</a> 插件主要用来把 px 单位转换为 vw 、vh 、vmin 或者 vmax 这样的视窗单位，也是 vw 适配方案的核心插件之一。</p>
+<p>为了更好的实现长宽比，特别是针对于 img、video 和 iframe 元素，通过 PostCSS 插件<a href="https://github.com/yisibl/postcss-aspect-ratio-mini" target="_blank" rel="external">postcss-aspect-ratio-mini</a> 来实现，在实际使用中，只需要把对应的宽和高写进去即可。</p>
+<ul>
+<li>优点：rem ，使用 vw 和 wh 是非常直观的，让其他人看到就能知道，该界面是以怎么样的结构进行布局，利于维护</li>
+<li>缺点：vw 在一些三星的机子会有兼容问题，导致失效，以及不同浏览器兼容问题</li>
+</ul>
+<h5 id="兼容性对比"><a href="#兼容性对比" class="headerlink" title="兼容性对比"></a>兼容性对比</h5><p> Rem：<br><img src="https://ws1.sinaimg.cn/large/d0ba619egy1fqi26dyf14j20sa052tcg.jpg" alt=""><br> VW：<br><img src="https://ws1.sinaimg.cn/large/d0ba619egy1fqi26prtssj20su0560xa.jpg" alt=""></p>
+<h2 id="手淘适配方案-Flexible-js"><a href="#手淘适配方案-Flexible-js" class="headerlink" title="手淘适配方案 Flexible.js"></a>手淘适配方案 Flexible.js</h2><p><img width="600px" height="300px" src="https://ws1.sinaimg.cn/large/d0ba619egy1fqi3ik1ullj20n20eujud.jpg"></p>
+<p><a href="https://github.com/amfe/lib-flexible" target="_blank" rel="external">Github(lib-flexible)</a></p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>第一种方法是将文件下载到你的项目中，然后通过相对路径添加：</p>
+<pre><code>&lt;script src=&quot;build/flexible_css.debug.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;build/flexible.debug.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>或者直接加载阿里CDN的文件：</p>
+<pre><code>&lt;script src=&quot;http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js&quot;&gt;&lt;/script&gt;
+</code></pre><h3 id="手机淘宝用-JS-来动态写-meta-标签"><a href="#手机淘宝用-JS-来动态写-meta-标签" class="headerlink" title="手机淘宝用 JS 来动态写 meta 标签"></a>手机淘宝用 JS 来动态写 meta 标签</h3><p>手机淘宝的 flexible 方案是综合运用 rem 和 px 两种单位 +js 设置 scale 和 html 字体。</p>
+<pre><code>var metaEl = doc.createElement(&apos;meta&apos;);
+var scale = isRetina ? 0.5:1;
+metaEl.setAttribute(&apos;name&apos;, &apos;viewport&apos;);
+metaEl.setAttribute(&apos;content&apos;, &apos;initial-scale=&apos; + scale + &apos;, maximum-scale=&apos; + scale + &apos;, minimum-scale=&apos; + scale + &apos;, user-scalable=no&apos;);
+if (docEl.firstElementChild) {
+    document.documentElement.firstElementChild.appendChild(metaEl);
+} else {
+    var wrap = doc.createElement(&apos;div&apos;);
+    wrap.appendChild(metaEl);
+    documen.write(wrap.innerHTML);
+}
+</code></pre><h3 id="实质"><a href="#实质" class="headerlink" title="实质"></a>实质</h3><ul>
+<li>动态改写<meta>标签</li>
+<li>给<html>元素添加 data-dpr 属性，并且动态改写 data-dpr 的值</html></li>
+<li>给<html>元素添加 font-size 属性，并且动态改写 font-size 的值</html></li>
+</ul>
+<h3 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h3><ul>
+<li>不能与响应式布局兼容</li>
+<li>对 Android 没有做处理，导致 1px 和 backgroudImage 还要额外做处理的问题</li>
+</ul>
+<p>ps.通过一段 JS 代码根据设备的屏幕宽度、dpr 设置根元素的 data-dpr 和 font-size ，这段JS代码要在所有资源加载之前执行，建议做内联处理。</p>
+<h2 id="常见问题解决方案"><a href="#常见问题解决方案" class="headerlink" title="常见问题解决方案"></a>常见问题解决方案</h2><h3 id="一、解决-1px-方案"><a href="#一、解决-1px-方案" class="headerlink" title="一、解决 1px 方案"></a>一、解决 1px 方案</h3><p><strong>原因：</strong>css 中的 1px 并不等于移动设备的 1px ，这些由于不同的手机有不同的像素密度。在 window 对象中有一个 devicePixelRatio 属性，他可以反应 css 中的像素与设备的像素比。viewport 的设置和屏幕物理分辨率是按比例而不是相同的。 移动端 window 对象有个 devicePixelRatio 属性， 它表示设备物理像素和 css 像素的比例， 在 retina 屏的 iphone手机上 ，这个值为 2 或 3 ， css 里写的 1px 长度映射到物理像素上就有 2px 或 3px 那么长。</p>
+<p><strong>解决方案：</strong></p>
+<h4 id="1-background-渐变（现有方法）"><a href="#1-background-渐变（现有方法）" class="headerlink" title="1.background 渐变（现有方法）"></a>1.background 渐变（现有方法）</h4><p>背景渐变， 渐变在透明色和边框色中间分割，frozenUI 用的就是这种方法， 借用它的上边框写法：<br>不能实现圆角 1px 效果，css 需要做兼容处理，与 background-image 方案类似，只是将图片替换为 css3 渐变。设置 1px 的渐变背景，50% 有颜色，50% 透明。</p>
+<pre><code>.border-1px-bottom {
+  background-image: linear-gradient(180deg, @border-default-color, @border-default-color 50%, transparent 0);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+</code></pre><ul>
+<li>优点：<ul>
+<li>可以实现单条、多条边框</li>
+<li>边框的颜色随意设置</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>代码量不少</li>
+<li>圆角没法实现</li>
+<li>多背景图片有兼容性问题</li>
+</ul>
+</li>
+</ul>
+<h5 id="浏览器兼容-2"><a href="#浏览器兼容-2" class="headerlink" title="浏览器兼容"></a>浏览器兼容</h5><ul>
+<li>不支持 IE 8.0 及以下、FireFox 3.5 及以下</li>
+<li><img width="800px" height="200px" src="https://ws1.sinaimg.cn/large/d0ba619egy1fqnwgdol47j21he0eydhu.jpg"></li>
+</ul>
+<h4 id="2-使用-border-image-实现"><a href="#2-使用-border-image-实现" class="headerlink" title="2.使用 border-image 实现"></a>2.使用 border-image 实现</h4><pre><code>.border-image-1px {
+  border-bottom: 1px solid #666;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  .border-image-1px {
+    border-bottom: none;
+    border-width: 0 0 1px 0;
+    -webkit-border-image: url(../img/linenew.png) 0 0 2 0 stretch;
+    border-image: url(../img/linenew.png) 0 0 2 0 stretch;
+  }
+}
+</code></pre><ul>
+<li>优点：<ul>
+<li>可以设置单条，多条边框</li>
+<li>没有性能瓶颈的问题</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>边框颜色不便修改，修改颜色麻烦， 需要替换图片</li>
+<li>圆角需要特殊处理，并且边缘会模糊</li>
+</ul>
+</li>
+</ul>
+<h5 id="浏览器兼容-3"><a href="#浏览器兼容-3" class="headerlink" title="浏览器兼容"></a>浏览器兼容</h5><ul>
+<li>不支持 IE 10.0 及以下 （其他浏览器版本部分支持）</li>
+<li><img width="800px" height="200px" src="https://ws1.sinaimg.cn/large/d0ba619egy1fqnwlgxe6ij21hi0fc40r.jpg"></li>
+</ul>
+<h4 id="3、使用-box-shadow-模拟边框"><a href="#3、使用-box-shadow-模拟边框" class="headerlink" title="3、使用 box-shadow 模拟边框"></a>3、使用 box-shadow 模拟边框</h4><p>利用 css 对阴影处理的方式实现 0.5px 的效果</p>
+<pre><code>.box-shadow-1px {
+  box-shadow: inset 0px -1px 1px -1px #c8c7cc;
+}
+</code></pre><ul>
+<li>缺点：颜色不便控制，太淡，有虚边</li>
+</ul>
+<h5 id="浏览器兼容-4"><a href="#浏览器兼容-4" class="headerlink" title="浏览器兼容"></a>浏览器兼容</h5><ul>
+<li>不支持 IE 8.0 及以下</li>
+<li><img width="800px" height="200px" src="https://ws1.sinaimg.cn/large/d0ba619egy1fqnwpb7mi1j21i40f4q4y.jpg"></li>
+</ul>
+<h4 id="4、viewport-rem-实现（flexible-js）"><a href="#4、viewport-rem-实现（flexible-js）" class="headerlink" title="4、viewport + rem 实现（flexible.js）"></a>4、viewport + rem 实现（flexible.js）</h4><p>同时通过设置对应 viewport 的 rem 基准值，这种方式就可以像以前一样轻松愉快的写 1px 了。</p>
+<ul>
+<li>优点：<ul>
+<li>所有场景都能满足</li>
+<li>一套代码，可以兼容基本所有布局</li>
+</ul>
+</li>
+<li>缺点：老项目修改代价过大，只适用于新项目</li>
+</ul>
+<h5 id="浏览器兼容-5"><a href="#浏览器兼容-5" class="headerlink" title="浏览器兼容"></a>浏览器兼容</h5><ul>
+<li>不支持 IE 8.0 以下 、Safari 4.0 以下、FireFox 3.5以下</li>
+<li><img width="800px" height="200px" src="https://ws1.sinaimg.cn/large/d0ba619egy1fqnvyg6do9j21he0f4ac2.jpg"></li>
+</ul>
+<h4 id="5、伪类-before，-after-transform-实现"><a href="#5、伪类-before，-after-transform-实现" class="headerlink" title="5、伪类 ( :before， :after ) + transform 实现"></a>5、伪类 ( :before， :after ) + transform 实现</h4><p>原理是把原先元素的 border 去掉，然后利用 :before 或者 :after 重做 border ，并 transform 的 scale 缩小一半，原先的元素相对定位，新做的 border 绝对定位。</p>
+<pre><code>.box-shadow-1px{
+    position: relative;
+    border:none;
+}
+.box-shadow-1px:after{
+    content: &apos;&apos;;
+    position: absolute;
+    left: 0;
+    background: #000;
+    width: 100%;
+    height: 1px;
+    transform: scaleY(0.5);
+    transform-origin: 50% 100%;
+}
+</code></pre><ul>
+<li>优点：<ul>
+<li>所有场景都能满足</li>
+<li>支持圆角(伪类和本体类都需要加 border-radius )</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>占用了伪类，容易和原样式冲突</li>
+<li>对于已经使用伪类的元素(例如 clearfix )，可能需要多层嵌套</li>
+<li>对单个元素的边框进行缩放的方案无法实现圆角</li>
+</ul>
+</li>
+</ul>
+<h5 id="浏览器兼容-6"><a href="#浏览器兼容-6" class="headerlink" title="浏览器兼容"></a>浏览器兼容</h5><ul>
+<li>不支持 IE 8.0 以下</li>
+<li><img width="800px" height="200px" src="https://ws1.sinaimg.cn/large/d0ba619egy1fqnwwok2wnj21hq0f00ur.jpg"></li>
+</ul>
+<h4 id="6-使用-0-5px-适配-iOS8-以上的-iPhone-机型"><a href="#6-使用-0-5px-适配-iOS8-以上的-iPhone-机型" class="headerlink" title="6. 使用 0.5px 适配 iOS8 以上的 iPhone 机型"></a>6. 使用 0.5px 适配 iOS8 以上的 iPhone 机型</h4><pre><code>@media (-webkit-min-device-pixel-ratio:2){
+ .box5 {border-width:.5px}
+}
+</code></pre><ul>
+<li>缺点：<ul>
+<li>只适用于 iOS8+ 以上的 iOS 系统，安卓机不支持 0.5px</li>
+<li>Chrome 会把小于 0.5px 的当成 0，而 Firefox 会把不小于 0.55px 当成 1px，Safari 是把不小于 0.75px 当成 1px</li>
+</ul>
+</li>
+</ul>
+<h3 id="二、Rem-小数问题"><a href="#二、Rem-小数问题" class="headerlink" title="二、Rem 小数问题"></a>二、Rem 小数问题</h3><p><strong>起因：</strong>在开发手机端页面的时候，使用了 rem 单位，实现上比 %、em 等其他的做法更简单了，它可以实现高度和宽度等比例变化。好东西是好，但是不好的一点是 rem 的小数点。但是浏览器在处理小数像素的时候并不是直接舍入处理的，元素依旧占据着应有的空间，只是在计算元素尺寸的时候做了舍入处理。</p>
+<p><code>例：会出现 font-size：2.1444444444px 的现象</code></p>
+<p><strong>目前遇到其他最多的问题就是 background-image 的问题，经常会因为小数像素导致背景图被裁掉一部分。</strong></p>
+<p><strong>解决方案：</strong></p>
+<ul>
+<li>使用 iconfont</li>
+<li>如需使用 background-image，尽量为背景图设置一定的空白间隙</li>
+</ul>
+<h3 id="三、高清图问题"><a href="#三、高清图问题" class="headerlink" title="三、高清图问题"></a>三、高清图问题</h3><p><strong>起因：</strong>理论上，1 个位图像素对应于 1 个物理像素（红色点），图片才能得到完美清晰的展示。在普通屏幕下是没有问题的，但是在retina屏幕下就会出现位图像素点不够，从而导致图片模糊的情况。对于 dpr = 2 的Retina 屏幕而言，1 个位图像素对应于 4 个物理像素，由于单个位图像素不可以再进一步分割，所以只能就近取色，从而导致图片模糊(注意上述的几个颜色值)。所以，对于图片高清问题，比较好的方案就是两倍图片(@2x)。</p>
+<p><code>如：200×300(css pixel)img标签，就需要提供400×600的图片。</code></p>
+<p>如此一来，位图像素点个数就是原来的 4 倍，在 Retina 屏幕下，位图像素点个数就可以跟物理像素点个数形成 1 : 1 的比例，图片自然就清晰了（这也解释了为啥视觉稿的画布大小要 × 2 ？）。</p>
+<p><strong>衍生问题：</strong>如果普通屏幕下，也用了两倍 图片，会怎样呢 ？</p>
+<p>在普通屏幕下，200 × 300（CSS pixel）img 标签，所对应的物理像素个数就是 200 × 300 个，而两倍图片的位图像素个数是 200 × 300 × 4 个，所以就出现一个物理像素点对应 4 个位图像素点，但它的取色也只能通过一定的算法取某一个位图像素点上的色值，这个过程叫做 downsampling（大图放入比图片尺寸小的容器中时，出现像素分割成就近色），肉眼看上去虽然图片不会模糊，但是会觉得图片缺少一些锐利度，或者是有点色差。所以最好的解决办法是：不同的 dpr 下，加载不同的尺寸的图片。不管是通过 CSS 媒体查询，还是通过 JS 条件判断都是可以的。</p>
+<p><strong>得出结论</strong>：<br>一般来说 dpr = 2 为多，dpr = 1 为普通屏幕，dpr = 3 占少数。所以我们至少做 2 套图片，一套是兼容dpr = 1 的小图；一套是兼容 dpr = 2 的大图；dpr = 3 的可以兼容到 dpr = 2 的图片中，虽然有点失色，但还是可以接受的。</p>
+<h2 id="小结（我推荐）"><a href="#小结（我推荐）" class="headerlink" title="小结（我推荐）"></a>小结（我推荐）</h2><h3 id="屏幕适配方案"><a href="#屏幕适配方案" class="headerlink" title="屏幕适配方案"></a>屏幕适配方案</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;使用 <a href="https://github.com/amfe/lib-flexible" target="_blank" rel="external"><strong>flexible.js</strong></a> 方案，较为稳定，提供了用一套 CSS 去适应多种屏幕的方法，不用考虑适应屏幕的高宽比、物理尺寸等，切图成本比较低。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;flexible 方案是综合运用 rem 和 px（避免字体放大模糊）两种单位 + js 设置 scale 和 html 字体达到效果。它动态改写 meta 标签，动态改写 dpr 的值，动态改写 font-size 的值。我们现有也是 rem 方法，可以减少代码修改。</p>
+<p><strong>Install</strong></p>
+<pre><code>npm i -S amfe-flexible
+</code></pre><p><strong>Import</strong></p>
+<pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no&quot;&gt;
+&lt;script src=&quot;./node_modules/amfe-flexible/index.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>ps. 虽然 VW 方案似乎也不错，但是考虑兼容性问题，flexible 更宜。</p>
+<h3 id="1px-border-单独解决方案"><a href="#1px-border-单独解决方案" class="headerlink" title="1px border 单独解决方案"></a>1px border 单独解决方案</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;1px border 问题使用 <strong>伪类 + transform</strong> 的方式实现。<br>能解决现有虚假 1px 问题，和无法实现圆角问题，而且兼容性良好，唯一不足：可能需要每个使用 1px border 的地方做相应的 css 调整，配合使用。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;通过对现有 Web 端屏幕适配方案的总结，引起对更好的 Web 端屏幕适配方案的调研。在调研中发现了现实中出现的 Web 端移动端适配相关问题，并推荐相应解决方案，和屏幕适配方案。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="zhoushiqi" scheme="http://xgfe.github.io/categories/zhoushiqi/"/>
+    
+    
+      <category term="CSS" scheme="http://xgfe.github.io/tags/CSS/"/>
+    
+      <category term="屏幕适配" scheme="http://xgfe.github.io/tags/%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/"/>
+    
+      <category term="移动端" scheme="http://xgfe.github.io/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/"/>
     
   </entry>
   
@@ -2463,381 +2955,6 @@ self.showLa.attributedText = muAttributedStr;
     
     
       <category term="iOS" scheme="http://xgfe.github.io/tags/iOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>由一个表格需求引发的blog-DOM中的尺寸属性</title>
-    <link href="http://xgfe.github.io/2017/09/20/Young/DOM-size/"/>
-    <id>http://xgfe.github.io/2017/09/20/Young/DOM-size/</id>
-    <published>2017-09-20T08:37:00.000Z</published>
-    <updated>2017-10-16T10:03:20.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近数据平台有一个需求，页面滚动的时候，表格的表头悬停在页面顶部，实现的时候遇到了不少问题，也尝试了几种方案，下一篇blog会尝试分享一下，由于涉及到较多的DOM操作，尤其是各种尺寸位置属性，所以对这些尺寸属性的含义做了一些总结。</p>
-<a id="more"></a>
-<h2 id="偏移量相关属性"><a href="#偏移量相关属性" class="headerlink" title="偏移量相关属性"></a>偏移量相关属性</h2><p>偏移量相关属性包括偏移量尺寸和位置属性，其中偏移量尺寸指的是元素在屏幕上占用的所有可见空间，包括其内容区的空间，内边距，边框以及滚动条占用的空间（不包括外边距）。偏移量位置属性是一个相对的概念，其偏移量是参照最近的定位（display值非none或static）祖先元素计算的。以像素作为单位。</p>
-<ol>
-<li><p>偏移量尺寸</p>
-<ul>
-<li>offsetWidth:元素在水平方向占用的空间大小，包括元素内容区的宽度，左右内边距的宽度，垂直滚动条的宽度，左右边框的宽度。</li>
-<li>offsetHeight:元素在垂直方向占用的空间大小，包括元素内容区高度，上下内边距的高度，水平滚动条的高度，上下边框的高度。</li>
-</ul>
-</li>
-<li><p>偏移量位置</p>
-<ul>
-<li>offsetParent:返回被引用元素最近的定位过的祖先元素。如果没有定位过的祖先元素，则返回body。</li>
-<li>offsetTop:被引用元素上边框的外边缘与其offsetParent上边框的内边缘之间像素距离。</li>
-<li>offsetLeft:被引用元素左边框的外边缘与其offsetParent左边框的内边缘之间的像素距离。</li>
-</ul>
-</li>
-</ol>
-<p><strong>用法：</strong>通常，如果想要获取某个元素在页面上的偏移量，将这个元素的offsetLeft或offsetTop与其offsetParent的相同属性相加，递归的计算直到根元素，就可以得到一个比较准确的结果。需要注意上述属性都是只读的，每次访问都需要重新计算。</p>
-<h2 id="客户区尺寸"><a href="#客户区尺寸" class="headerlink" title="客户区尺寸"></a>客户区尺寸</h2><p>客户区尺寸只与元素自身所占区域大小有关，相关的属性如下。</p>
-<ul>
-<li>clientWidth:元素内容区宽度加上左右内边距的宽度。</li>
-<li>clientHeight:元素内容区高度加上上下内边距的高度。</li>
-<li>clientTop:元素上边框的宽度。</li>
-<li>clientLeft:元素左边框的宽度。</li>
-</ul>
-<p><strong>用法：</strong>最常见的用途之一是用来确定浏览器视口的尺寸，根据浏览器的支持情况，使用document.documentElement或者document.body的相应尺寸来获取视口宽高信息。</p>
-<h2 id="滚动元素相关属性"><a href="#滚动元素相关属性" class="headerlink" title="滚动元素相关属性"></a>滚动元素相关属性</h2><p>滚动元素是包含滚动条的元素，相关属性如下。</p>
-<ol>
-<li><p>滚动尺寸</p>
-<ul>
-<li>scrollWidth:元素内容的实际宽度（包含左右内边距），即在没有滚动条的情况下，元素内容的总宽度。</li>
-<li>scrollHeight:元素内容的实际高度（包含上下内边距），即在没有滚动条的情况下，元素内容的总高度。</li>
-</ul>
-</li>
-<li><p>滚动位置</p>
-<ul>
-<li>scrollTop:被隐藏在内容区域上方的像素数，这个属性和scrollLeft均是可配置的，可以通过设置这个属性的值来改变元素滚动的位置。</li>
-<li>scrollLeft:被隐藏在内容区域左侧的像素数。</li>
-</ul>
-</li>
-</ol>
-<p><strong>用法：</strong>滚动尺寸主要用来确定元素内容的实际大小，滚动位置既可以用来确定当前滚动的状态也可以设置滚动位置。一个很常见的使用场景就是判断页面的滚动情况，不同的浏览器的获取scrollTop方法不同，document.documentElement返回的是文档的根节点即<html>，document.body返回的是body，在chrome中，获取页面scrollTop只能通过document.body.scrollTop来获取，document.documentElement获取相同属性始终返回0，而在FF下（只测试了chrome和FF）正好相反。</html></p>
-<h2 id="无图无真相"><a href="#无图无真相" class="headerlink" title="无图无真相"></a>无图无真相</h2><p>作为一个斗图新人，没有图没有底气，所以虽然手残，我还是画了一个图，首先我们就假装图中那个灰色的东西是滚动条，然后看图对应上述属性吧~</p>
-<p><img src="http://p1.meituan.net/xgfe/447fe588baa4cd81ed6e3cd6fc38b55d85970.png" alt=""></p>
-<h2 id="事件event位置"><a href="#事件event位置" class="headerlink" title="事件event位置"></a>事件event位置</h2><p>对于页面中发生的事件，获取点击事件鼠标的位置信息在应用中很常见，以垂直位置为例，常用相关属性有三个：pageY, clientY, screenY。</p>
-<ul>
-<li>pageY:鼠标在页面上的文档坐标，以文档为参照，距离文档左上角的垂直像素距离，所以这个属性和页面是否滚动无关。</li>
-<li>clientY:以视口为参照，鼠标距离视口左上角的垂直像素距离。</li>
-<li>screenY:以浏览器为参照，鼠标距离浏览器左上角的垂直像素距离，包含工具栏之类。</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近数据平台有一个需求，页面滚动的时候，表格的表头悬停在页面顶部，实现的时候遇到了不少问题，也尝试了几种方案，下一篇blog会尝试分享一下，由于涉及到较多的DOM操作，尤其是各种尺寸位置属性，所以对这些尺寸属性的含义做了一些总结。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Young" scheme="http://xgfe.github.io/categories/Young/"/>
-    
-    
-      <category term="DOM" scheme="http://xgfe.github.io/tags/DOM/"/>
-    
-      <category term="跨浏览器属性" scheme="http://xgfe.github.io/tags/%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B1%9E%E6%80%A7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ConstraintLayout 采用代码方式布局用法简介</title>
-    <link href="http://xgfe.github.io/2017/09/17/ivanchou/layout-with-constraintlayout-by-programming/"/>
-    <id>http://xgfe.github.io/2017/09/17/ivanchou/layout-with-constraintlayout-by-programming/</id>
-    <published>2017-09-16T16:00:00.000Z</published>
-    <updated>2017-09-21T09:33:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>关于 ConstraintLayout 的 xml 方式布局的介绍有很多，但是你知道 ConstraintSet 吗？<br>本文对于 ConstraintLayout 采用代码进行布局的方式进行了介绍。</p>
-<a id="more"></a>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>我们知道，Android 界面的布局按照传统方式是通过编写 xml 代码去实现的。虽然 Android Studio 提供可视化的方式去编写界面，但是并没有编写 xml 代码好用。为了解决这一问题 ConstraintLayout 诞生了，这是 Google 在 I/O 2016 推出的用可视化的方式编写界面的布局。（注：从 Android Studio 2.2 开始提供支持）</p>
-<p>ConstraintLayout 的优点在于使用扁平的层次结构创建出复杂的布局，类似于 RelativeLayout 通过定义自身与其他 View 或者 Parent 之间的关系实现布局，ConstraintLayout 比 RelativeLayout 更加灵活。同时，在 Android Studio 中可以且推荐使用可视化的方式去编写界面。</p>
-<ul>
-<li><p>在 xml 中使用</p>
-<p>  关于 xml 方式进行布局的资料有很多，就不再赘述了。</p>
-</li>
-<li><p>通过编程的方式布局</p>
-<p>  android.support.constraint 包下有四个类，分别是 ConstraintLayout、ConstraintLayout.LayoutParams、ConstraintSet 与 Guideline。官方文档对它们的说明如下表，</p>
-</li>
-</ul>
-<blockquote>
-<table>
-<thead>
-<tr>
-<th>类名</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ConstraintLayout</td>
-<td>A ConstraintLayout is a ViewGroup which allows you to position and size widgets in a flexible way.</td>
-</tr>
-<tr>
-<td>ConstraintLayout.LayoutParams</td>
-<td>This class contains the different attributes specifying how a view want to be laid out inside a ConstraintLayout.</td>
-</tr>
-<tr>
-<td>ConstraintSet</td>
-<td>This class allows you to define programmatically a set of constraints to be used with ConstraintLayout.</td>
-</tr>
-<tr>
-<td>Guideline</td>
-<td>Utility class representing a Guideline helper object for ConstraintLayout.</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
-<p>   对于 ConstraintSet 的描述是可以通过编程的方式定义一系列约束，本文的主题就是围绕着 ConstraintSet 来进行的。</p>
-<h2 id="编程实现约束布局"><a href="#编程实现约束布局" class="headerlink" title="编程实现约束布局"></a>编程实现约束布局</h2><p>要通过编程的方式实现约束布局，分为以下几个步骤：</p>
-<ul>
-<li><p>添加 View 到 Activity 中</p>
-<p>  在 onCreate() 方法中创建 ConstraintLayout，并添加两个按钮到布局上，通过 setContentView() 设置 Activity 的布局。</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    Button mOkBtn;</div><div class="line">    Button mCancelBtn;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line"></div><div class="line">        ConstraintLayout cl = <span class="keyword">new</span> ConstraintLayout(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">        mOkBtn = <span class="keyword">new</span> Button(<span class="keyword">this</span>);</div><div class="line">        mOkBtn.setText(<span class="string">"OK"</span>);</div><div class="line">        cl.addView(mOkBtn);</div><div class="line"></div><div class="line">        mCancelBtn = <span class="keyword">new</span> Button(<span class="keyword">this</span>);</div><div class="line">        mCancelBtn.setText(<span class="string">"Cancel"</span>);</div><div class="line">        cl.addView(mCancelBtn);</div><div class="line"></div><div class="line">        setContentView(cl);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>给 View 设置 id</p>
-<p>  通常在 xml 中添加 View 时，Android SDK 会自动帮我们生成资源文件的 id，存储在 R.java 中。但是通过代码的方式并不会触发生成 id，所以需要进行手动绑定。</p>
-<p>  首先，在 res/values 目录中新建一个资源文件 ids.xml，</p>
-  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"btnCancel"</span> <span class="attr">type</span>=<span class="string">"id"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"btnOk"</span> <span class="attr">type</span>=<span class="string">"id"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>  然后在代码中进行绑定，</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mOkBtn.setId(R.id.btnOk);</div><div class="line">mCancelBtn.setId(R.id.btnCancel);</div></pre></td></tr></table></figure>
-<p>  这时候之后设置的相关约束才会真正生效。</p>
-</li>
-<li><p>设置 View 的属性</p>
-<p>  必须设置的属性除了 view id 还有宽高，宽高属性是通过 ConstraintSet 来设置的，通过指定 view id 及可选的有水平方向的依赖以及垂直方向的依赖。</p>
-<p>  我们知道采用 xml 进行布局的时候对于宽高的设置有三种选项，分别是 wrap_content、match constraints(0dp) 以及 fixed ，而通过代码的方式只有前面两种，没有 fiexd 这个选项。</p>
-</li>
-</ul>
-<blockquote>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">常量值</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">ConstraintSet.WRAP_CONTENT</td>
-<td style="text-align:center">WRAP_CONTENT</td>
-</tr>
-<tr>
-<td style="text-align:left">ConstraintSet.MATCH_CONSTRAINT</td>
-<td style="text-align:center">0 dp</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
-<p>设置 view 宽高的方法如下，</p>
-<blockquote>
-<table>
-<thead>
-<tr>
-<th>xml 属性</th>
-<th>对应方法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>android:layout_height</td>
-<td>ConstraintSet.constrainHeight(int viewId, int height)</td>
-</tr>
-<tr>
-<td>android:layout_width</td>
-<td>ConstraintSet.constrainWidth(int viewId, int width)</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
-<ul>
-<li><p>配置依赖关系 ConstraintSet</p>
-<p>  官方推荐使用 ConstraintSet 来进行约束配置，这里很奇怪为什么不能通过 LayoutParams 来配置依赖关系。ConstraintSet 可以用来通过编程的方式定义一系列用在 ConstraintLayout 上的约束，可以用来创建、保存约束，并且可以将其应用在已有的 ConstraintLayout 上，可以通过以下 3 种方式来获取 ConstraintSet。</p>
-<ol>
-<li><p>手动</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">c = <span class="keyword">new</span> ConstraintSet(); c.connect(....);</div></pre></td></tr></table></figure>
-</li>
-<li><p>读取 xml 文件中的约束</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">c.clone(context, R.layout.layout1);</div></pre></td></tr></table></figure>
-</li>
-<li><p>从其他 ConstraintLayout 复制</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">c.clone(clayout);</div></pre></td></tr></table></figure>
-<p>第2、3两种方法具体使用参见官方文档说明，这篇文章主要介绍手动编码的方式，我们重点来看 connect 方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">connect</span><span class="params">(<span class="keyword">int</span> startID, <span class="keyword">int</span> startSide, <span class="keyword">int</span> endID, <span class="keyword">int</span> endSide, <span class="keyword">int</span> margin)</span></span></div></pre></td></tr></table></figure>
-<p>connect 方法需要四个参数，可以理解为连线的起始 view 的边与终止 view 的边，描述一个 view 的边需要通过 view id 与 side 来确定，对应到 xml 中则是 layout_constraint{$startSide}_to{$endSide}Of = “endID” 属性。这里的 view id 非常重要，在没有设置 view id 的情况下会导致无法找到正确的 view，也就无法正确应用约束设置。</p>
-<p>尝试在代码中打印出 view id 的值，可以发现通过 new 方式得到的 view 的 id 默认为 -1，也正是因为这个原因，你会发现没有设置 view id 的情况下布局并没有生效。ConstraintSet 中用来描述约束特征的常量有如下几种，</p>
-</li>
-</ol>
-</li>
-</ul>
-<blockquote>
-<table>
-<thead>
-<tr>
-<th>常量值</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ConstraintSet.LEFT</td>
-<td>View 的左边界</td>
-</tr>
-<tr>
-<td>ConstraintSet.RIGHT</td>
-<td>View 的右边界</td>
-</tr>
-<tr>
-<td>ConstraintSet.TOP</td>
-<td>View 的顶部</td>
-</tr>
-<tr>
-<td>ConstraintSet.BOTTOM</td>
-<td>View 的底部</td>
-</tr>
-<tr>
-<td>ConstraintSet.BASELINE</td>
-<td>View 中 text 的基线</td>
-</tr>
-<tr>
-<td>ConstraintSet.PARENT_ID</td>
-<td>父控件的 id，通常情况下为 ConstraintLayout</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
-<ul>
-<li><p>dpTopx</p>
-<p>  通常我们在 xml 中可以直接输入具体的 dp 值，但是在代码中具体的数值代表的是 px，所以需要根据屏幕具体的分辨率进行转换。</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">dpToPx</span><span class="params">(<span class="keyword">int</span> dp)</span> </span>&#123;</div><div class="line">    DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();</div><div class="line">    <span class="keyword">return</span> Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><p>接下来我们通过一个简单的 demo 来了解一下 ConstraintSet 的用法。编写一个只包含确定、取消按钮的界面，采用 xml 的方式配置的代码如下，</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/btnCancel"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:layout_marginBottom</span>=<span class="string">"8dp"</span></div><div class="line">    <span class="attr">android:layout_marginLeft</span>=<span class="string">"8dp"</span></div><div class="line">    <span class="attr">android:text</span>=<span class="string">"Cancel"</span></div><div class="line">    <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span></div><div class="line">    <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"parent"</span> /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/btnOK"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:layout_marginBottom</span>=<span class="string">"8dp"</span></div><div class="line">    <span class="attr">android:layout_marginRight</span>=<span class="string">"8dp"</span></div><div class="line">    <span class="attr">android:text</span>=<span class="string">"OK"</span></div><div class="line">    <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span></div><div class="line">    <span class="attr">app:layout_constraintRight_toRightOf</span>=<span class="string">"parent"</span> /&gt;</div></pre></td></tr></table></figure>
-<p>将其转换成对应的 Java code，</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    Button mOkBtn;</div><div class="line">    Button mCancelBtn;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line"></div><div class="line">        ConstraintLayout cl = <span class="keyword">new</span> ConstraintLayout(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">        mOkBtn = <span class="keyword">new</span> Button(<span class="keyword">this</span>);</div><div class="line">        mOkBtn.setText(<span class="string">"OK"</span>);</div><div class="line">        cl.addView(mOkBtn);</div><div class="line"></div><div class="line">        mCancelBtn = <span class="keyword">new</span> Button(<span class="keyword">this</span>);</div><div class="line">        mCancelBtn.setText(<span class="string">"Cancel"</span>);</div><div class="line">        cl.addView(mCancelBtn);</div><div class="line"></div><div class="line">        ConstraintSet set = <span class="keyword">new</span> ConstraintSet();</div><div class="line"></div><div class="line">        set.connect(mCancelBtn.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, dpTopx(<span class="number">8</span>));</div><div class="line">        set.connect(mCancelBtn.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, dpTopx(<span class="number">8</span>));</div><div class="line">        set.constrainHeight(mCancelBtn.getId(), ConstraintSet.WRAP_CONTENT);</div><div class="line">        set.constrainWidth(mCancelBtn.getId(), ConstraintSet.WRAP_CONTENT);</div><div class="line">        </div><div class="line">        set.connect(mOkBtn.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, dpTopx(<span class="number">8</span>));</div><div class="line">        set.connect(mOkBtn.getId(), ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, dpTopx(<span class="number">8</span>));</div><div class="line">        set.constrainHeight(mOkBtn.getId(), ConstraintSet.WRAP_CONTENT);</div><div class="line">        set.constrainWidth(mOkBtn.getId(), ConstraintSet.WRAP_CONTENT);</div><div class="line">        </div><div class="line">        set.applyTo(cl);</div><div class="line">        setContentView(cl);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以看到相比于 xml 代码，Java 代码既繁琐又长，更何况 ConstraintLayout 的出现本来就不推荐手写 xml，在 Android Stuidio 中以直接拖动的方式进行布局操作最少只需要 3 步：</p>
-<ul>
-<li>拖动控件到界面上</li>
-<li>设置 id（可省略）</li>
-<li>选中控件，将控件左边界连接到父空间的左边</li>
-<li>选中控件，将控件下边界连接到父空间的底部</li>
-</ul>
-<p>所以采用代码的方式进行布局，效率反而进一步降低了。除非必要，这并不是一种值的推荐的方式。</p>
-<h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><p>在进行代码布局的过程中，发现对 view 设置的与父控件的左／右间隔并没有生效，不知道是不是一个已知的 bug，有待进一步深入。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>初次接触到 ConstraintLayout 时被这种快速便捷的操作方式吸引，意味着可以不用为了实现复杂的布局而进行多层嵌套。顺理成章，当我在自定义控件时第一时刻便想到了它，也就有了这篇简介。其实后来仔细一想这种需求还是比较奇怪，本身 ConstraintLayout 的出现是为了解决 Android 开发中可视化编辑界面的不便，然而偏要选择写 xml 的方式去布局，甚至是 Java code，那就是自找麻烦了。这可能也是为什么官方没有在 Tutorial 中提及而只是在 API Doc 中一笔带过的原因吧。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><a href="https://developer.android.com/training/constraint-layout/index.html" target="_blank" rel="external">Build a Responsive UI with ConstraintLayout | Android Developers</a></li>
-<li><a href="http://blog.csdn.net/guolin_blog/article/details/53122387" target="_blank" rel="external">Android新特性介绍，ConstraintLayout完全解析</a></li>
-<li><a href="https://developer.android.com/reference/android/support/constraint/package-summary.html" target="_blank" rel="external">ConstraintLayout | Android Developers</a></li>
-<li><a href="http://www.techotopia.com/index.php/An_Android_ConstraintSet_Tutorial" target="_blank" rel="external">An Android ConstraintSet Tutorial</a></li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;关于 ConstraintLayout 的 xml 方式布局的介绍有很多，但是你知道 ConstraintSet 吗？&lt;br&gt;本文对于 ConstraintLayout 采用代码进行布局的方式进行了介绍。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="ivanchou" scheme="http://xgfe.github.io/categories/ivanchou/"/>
-    
-    
-      <category term="Android" scheme="http://xgfe.github.io/tags/Android/"/>
-    
-      <category term="布局" scheme="http://xgfe.github.io/tags/%E5%B8%83%E5%B1%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HTML解析和资源加载</title>
-    <link href="http://xgfe.github.io/2017/09/07/felix/html-parsing-and-resources-load/"/>
-    <id>http://xgfe.github.io/2017/09/07/felix/html-parsing-and-resources-load/</id>
-    <published>2017-09-07T03:00:00.000Z</published>
-    <updated>2017-09-21T09:33:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>学习浏览器的内部工作原理将有助于您作出更明智的决策，并理解那些最佳开发实践的个中缘由。</p>
-<p>本文主要针对WebKit内核的浏览器。</p>
-<a id="more"></a>
-<h2 id="渲染引擎工作流"><a href="#渲染引擎工作流" class="headerlink" title="渲染引擎工作流"></a>渲染引擎工作流</h2><p><img src="http://p1.meituan.net/xgfe/6112586223b0a8894049a9ece14c0201173121.png" alt=""></p>
-<h2 id="HTML并行加载和解析"><a href="#HTML并行加载和解析" class="headerlink" title="HTML并行加载和解析"></a>HTML并行加载和解析</h2><ul>
-<li>js是单线程的，浏览器是多线程的，chrome是多进程的</li>
-<li>浏览器的多线程：<ul>
-<li>GUI渲染线程</li>
-<li>javascript引擎线程</li>
-<li>定时器触发器线程</li>
-<li>事件触发线程</li>
-<li>异步http请求线程</li>
-<li>js引擎线程和GUI渲染线程互斥</li>
-</ul>
-</li>
-<li>浏览器加载、解析和渲染同时进行</li>
-</ul>
-<h2 id="浏览器并发请求限制"><a href="#浏览器并发请求限制" class="headerlink" title="浏览器并发请求限制"></a>浏览器并发请求限制</h2><ul>
-<li>webkit 同域并发请求限制为6</li>
-</ul>
-<h2 id="外部资源的加载规则"><a href="#外部资源的加载规则" class="headerlink" title="外部资源的加载规则"></a>外部资源的加载规则</h2><ol>
-<li>HTML【highest】：iframe，非阻塞</li>
-<li>css【highest】<ul>
-<li>css文件异步加载和解析，不影响HTML文档的解析和DOMContentLoaded事件，但是会阻塞<strong>整个</strong>DOM的渲染</li>
-<li>css文件的加载和解析会阻塞后续js文件的执行</li>
-<li>内部import的css文件，立即加入请求队伍并继续阻塞后续js文件的执行</li>
-</ul>
-</li>
-<li>javascript<ul>
-<li>js文件的加载和解析会阻塞<strong>后续</strong>DOM的解析和渲染[阻塞主线程]</li>
-<li>head里面的js文件【high】</li>
-<li>body末尾的js文件【medium】</li>
-<li>async和defer的js文件不阻塞主线程【low】</li>
-</ul>
-</li>
-<li>图片【low】:非阻塞</li>
-<li>字体文件【highest】:非阻塞</li>
-<li>其他资源基本都是非阻塞且低优先级的</li>
-<li>preload和prefetch(可能被浏览器忽略)不改变优先级</li>
-</ol>
-<p><strong>【预解析】当主线程被阻碍时，WebKit会启动另外一个线程去遍历后面的HTML网页，收集需要的资源URL，然后发送请求，这样就可以避免被阻碍。实现资源的并发下载，包括js文件。</strong></p>
-<h2 id="DOMContentLoaded-和-load事件"><a href="#DOMContentLoaded-和-load事件" class="headerlink" title="DOMContentLoaded 和 load事件"></a><a href="https://developer.mozilla.org/zh-CN/docs/Web/Events/DOMContentLoaded" target="_blank" rel="external">DOMContentLoaded</a> 和 <a href="https://developer.mozilla.org/en-US/docs/Web/Events/load" target="_blank" rel="external">load</a>事件</h2><ul>
-<li>初始HTML文档被完全加载和解析完成之后，DOMContentLoaded 事件被触发，而无需等待<strong>样式表</strong>、<strong>图像</strong>和<strong>子框架</strong>完成加载；[完成DOMTree]</li>
-<li>当一个资源及其依赖资源已完成加载时，将触发load事件。</li>
-</ul>
-<h2 id="js文件非阻塞加载"><a href="#js文件非阻塞加载" class="headerlink" title="js文件非阻塞加载"></a>js文件非阻塞加载</h2><ul>
-<li>script[async]<ul>
-<li>js文件异步加载，不阻塞主线程(HTML解析，其他js执行)</li>
-<li>js文件的执行时间不可预期，不对其它流程产生影响</li>
-</ul>
-</li>
-<li>script[defer]<ul>
-<li>js文件异步加载，不阻塞主线程(HTML解析，其他js执行)</li>
-<li>js文件的执行在HTML解析完成之后，所有defer js文件按顺序先后执行<ul>
-<li>FF在DOMContentLoaded事件之前（defer的js文件会延迟DOMContentLoaded事件）</li>
-<li>WebKit内核中不影响DOMContentLoaded事件</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>XHR异步请求然后eval()执行</li>
-<li>动态插入script标签<ul>
-<li>document.write()：同script标签，但不会阻塞当前脚本后续执行</li>
-<li>动态创建script标签，再append到DOM中：同script[async]</li>
-</ul>
-</li>
-</ul>
-<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><ul>
-<li><a href="https://www.html5rocks.com/zh/tutorials/internals/howbrowserswork/" target="_blank" rel="external">浏览器的工作原理：新式网络浏览器幕后揭秘</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;学习浏览器的内部工作原理将有助于您作出更明智的决策，并理解那些最佳开发实践的个中缘由。&lt;/p&gt;
-&lt;p&gt;本文主要针对WebKit内核的浏览器。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="felix" scheme="http://xgfe.github.io/categories/felix/"/>
-    
-    
-      <category term="html" scheme="http://xgfe.github.io/tags/html/"/>
     
   </entry>
   
